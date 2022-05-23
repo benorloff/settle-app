@@ -17,10 +17,12 @@ const contactSchema = new mongoose.Schema(
             lowercase: true,
             unique: true
         },
+        businessPhone: String,
+        mobilePhone: String,
         photoUrl: String,
-        businessId: {
-            type: mongoose.Types.ObjectId, 
-            ref: 'Business' 
+        clientId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Client'
         }
     },
     {
