@@ -39,7 +39,7 @@ export default function SignUpPage(props) {
     try {
       await userService.signup(formData)
       props.handleSignUpOrLogin()
-      navigate('/')
+      navigate('/dashboard')
     } catch(err){
       setError(err.message)
     }
