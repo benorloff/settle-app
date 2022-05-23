@@ -16,7 +16,7 @@ export default function SignUpPage(props) {
     firstName: '',
     lastName: ''
   })
-  const [selectedFile, setSelectedFile] = useState('')
+  const [selectedFile, setSelectedFile] = useState('/avatar-default.png')
   const [modalOpen, setModalOpen] = useState(false)
 
   const navigate = useNavigate()
@@ -48,16 +48,23 @@ export default function SignUpPage(props) {
   function handleFileInput(e){
     console.log(e.target.files, " <-- e.target.files");
     setSelectedFile(e.target.files[0])
+    // const reader = new FileReader()
+    // reader.addEventListener('load', () =>
+    //   setSelectedFile(reader.result.toString() || ''),
+    // )
+    // reader.readAsDataURL(e.target.files[0])
+    // console.log(selectedFile)
+    // setModalOpen(true)
   }
 
   return (
     <>
-      <Grid textAlign="center" style={{ height: "100vh" }} verticalAlign="middle">
+      <Grid style={{ height: "100vh" }} verticalAlign="middle" centered>
         <Grid.Column style={{ maxWidth: 450 }}>
           <Header as="h2" textAlign="center">
             Sign Up
           </Header>
-          <Modal
+          {/* <Modal
             onClose={() => setModalOpen(false)}
             onOpen={() => setModalOpen(true)}
             modalOpen={modalOpen}
@@ -66,10 +73,10 @@ export default function SignUpPage(props) {
             <Modal.Header>HEADER</Modal.Header>
             <Modal.Content>CONTENT</Modal.Content>
             <Modal.Actions>ACTIONS</Modal.Actions>
-          </Modal>
+          </Modal> */}
           <Form autoComplete="off" onSubmit={handleSubmit}>
             <Segment stacked>
-              <Image src='https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png' size='medium' circular />
+              {/* <Image src='/avatar-default.png' size='medium' circular /> */}
               <Form.Field>
                 <Form.Input
                   type="file"
@@ -79,24 +86,28 @@ export default function SignUpPage(props) {
                   required
                 />
               </Form.Field>
-              <Form.Input
-                type="text"
-                name="firstName"
-                placeholder="First Name"
-                label="First Name"
-                value={state.firstName}
-                onChange={handleChange}
-                required
-              />
-              <Form.Input
-                type="text"
-                name="lastName"
-                placeholder="Last Name"
-                label="Last Name"
-                value={state.lastName}
-                onChange={handleChange}
-                required
-              />
+              <Form.Group widths='equal'>
+                <Form.Input
+                  fluid
+                  type="text"
+                  name="firstName"
+                  placeholder="First Name"
+                  label="First Name"
+                  value={state.firstName}
+                  onChange={handleChange}
+                  required
+                />
+                <Form.Input
+                  fluid
+                  type="text"
+                  name="lastName"
+                  placeholder="Last Name"
+                  label="Last Name"
+                  value={state.lastName}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
               <Form.Input
                 type="email"
                 name="email"
@@ -106,26 +117,30 @@ export default function SignUpPage(props) {
                 onChange={handleChange}
                 required
               />
-              <Form.Input
-                name="password"
-                type="password"
-                placeholder="Password"
-                label="Password"
-                value={state.password}
-                onChange={handleChange}
-                required
-              />
-              <Form.Input
-                name="passwordConf"
-                type="password"
-                placeholder="Confirm Password"
-                label="Confirm Password"
-                value={state.passwordConf}
-                onChange={handleChange}
-                required
-              />
+              <Form.Group widths='equal'>
+                <Form.Input
+                  fluid
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                  label="Password"
+                  value={state.password}
+                  onChange={handleChange}
+                  required
+                />
+                <Form.Input
+                  fluid
+                  name="passwordConf"
+                  type="password"
+                  placeholder="Confirm Password"
+                  label="Confirm Password"
+                  value={state.passwordConf}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
               <Button type="submit" className="btn">
-                Signup
+                Create Account
               </Button>
             </Segment>
             {error ? <ErrorMessage error={error} /> : null}

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
+import Dashboard from "../Dashboard/Dashboard";
 import userService from "../../utils/userService";
 
 function App() {
@@ -30,6 +31,10 @@ function App() {
         <Route
           path="/signup"
           element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
+        />
+        <Route
+          path="/dashboard"
+          element={<Dashboard />}
         />
       </Routes>
     );
