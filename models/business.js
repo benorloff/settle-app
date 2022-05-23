@@ -33,7 +33,8 @@ const businessSchema = new mongoose.Schema(
             required: true 
         },
         baseCurrency: { 
-            type: String, 
+            type: String,
+            lowercase: true, 
             required: true 
         },
         businessPhone: { 
