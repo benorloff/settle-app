@@ -19,7 +19,7 @@ function signup(req, res) {
   //////////////////////////////////////////////////////////////////////////////////
 
   // FilePath unique name to be saved to our butckt
-  const filePath = `${uuidv4()}/${req.file.originalname}`;
+  const filePath = `users/${uuidv4()}-${req.file.originalname}`;
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Key: filePath,
