@@ -6,14 +6,14 @@ const S3 = require("aws-sdk/clients/s3");
 const s3 = new S3(); // initialize the construcotr
 // now s3 can crud on our s3 buckets
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = {
   signup,
   login,
 };
 
-function signup(req, res) {
+async function signup(req, res) {
   console.log(req.body, req.file);
 
   const filePath = `users/${uuidv4()}-${req.file.originalname}`;
@@ -30,7 +30,7 @@ function signup(req, res) {
 
   s3.upload(params, async function (err, data) {
     console.log(data, "from aws"); 
-    const user = new User({ ...req.body, photoUrl: data.Location });
+    const user = new User({ ...req.body, photoUrl: data.Location, stripeAccountId: account.id });
     try {
       await user.save();
       const token = createJWT(user); // user is the payload so this is the object in our jwt

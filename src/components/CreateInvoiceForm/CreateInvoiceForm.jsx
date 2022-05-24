@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import LineItem from '../LineItem/LineItem';
+import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
+import ActiveLineItem from '../ActiveLineItem/ActiveLineItem';
 import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
     const [amountDue, setAmountDue] = useState('$0.00')
-    const [numLineItems, setNumLineItems] = useState({value: 0})
-    const [lineItems, setLineItems] = useState([])
+    const [numLineItems, setNumLineItems] = useState({value: 1})
+    const [inactiveLineItems, setInactiveLineItems] = useState([])
+    const [activeLineItem, setActiveLineItem] = useState({
+        name: '',
+        description:'',
+        rate: '',
+        quantity: ''
+    })
     const [state, setState] = useState({
         invoiceNum: '',
         issueDate: '',
@@ -28,6 +35,16 @@ export default function CreateInvoiceForm(props){
             ...state,
             [e.target.name]: e.target.value
         })
+        console.log(state)
+    }
+
+    function handleActiveLineItemChange(e){
+        setActiveLineItem({
+            ...activeLineItem,
+            [e.target.name]: e.target.value
+        })
+        console.log(activeLineItem,'<-active line item')
+        console.log(state)
     }
 
     function handleSubmit(e){
@@ -39,25 +56,14 @@ export default function CreateInvoiceForm(props){
         props.handleCreateInvoice(formData);
     }
 
-    function handleAddLineItem(){
+    async function handleAddLineItem(){
         setNumLineItems(prevNumLineItems => {
             return {value: prevNumLineItems.value + 1}
         })
+        setInactiveLineItems(inactiveLineItems => inactiveLineItems.concat(activeLineItem))
         const lastItemIndex = numLineItems.value;
         console.log(lastItemIndex, '<-last item index')
-        if (numLineItems.value === 0) {
-            setLineItems([{
-                key: '',
-                name: '',
-                description:'',
-                rate: '',
-                quantity: ''
-            }])
-        } else if (numLineItems.value === 1) {
-            setLineItems([{
-                
-            }])
-        }
+        setActiveLineItem({});
     }
 
     useEffect(() => {
@@ -76,13 +82,20 @@ export default function CreateInvoiceForm(props){
     }, [])
 
     useEffect(() => {
-        console.log(numLineItems, '<- numLineItems on component did mount')
+        setActiveLineItem({
+            name: '',
+            description: '',
+            rate: '',
+            quantity: '',
+        });
+        console.log(activeLineItem)
     }, [numLineItems])
 
     return (
         <Grid style={{ height: "100vh"}} verticalAlign="middle" centered container>
             <Grid.Column style={{ maxWidth: 750 }}>
                 <Form autoComplete="off" onSubmit={handleSubmit}>
+                    <button type="submit">Send</button>
                     <Grid stackable>
                         <Grid.Row columns={3}>
                             <Grid.Column>
@@ -168,9 +181,9 @@ export default function CreateInvoiceForm(props){
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
-                        {lineItems.map((item, i) => {
+                        {inactiveLineItems.map((item, i) => {
                             return (
-                                <LineItem
+                                <InactiveLineItem 
                                     key={i}
                                     name={item.name}
                                     description={item.description}
@@ -179,21 +192,27 @@ export default function CreateInvoiceForm(props){
                                 />
                             )
                         })}
-                        <Grid.Row>
-                        {numLineItems.value <= 25 &&
-                            <Button fluid onClick={handleAddLineItem}>
-                                Add Line Item
-                            </Button>
-                        }
-                        {numLineItems.value > 25 &&
-                            <Button fluid disabled>
-                                You've reached the maximum number of line items.
-                            </Button>
-                        }
-                        </Grid.Row>
+                        <ActiveLineItem
+                            name={activeLineItem.name}
+                            description={activeLineItem.description}
+                            rate={activeLineItem.rate}
+                            quantity={activeLineItem.quantity}
+                            onChange={handleActiveLineItemChange}
+                        />
                     </Grid>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
+                <Divider hidden />
+                {numLineItems.value <= 25 &&
+                    <Button fluid onClick={handleAddLineItem}>
+                        Add Line Item
+                    </Button>
+                }
+                {numLineItems.value > 25 &&
+                    <Button fluid disabled>
+                        You've reached the maximum number of line items.
+                    </Button>
+                }
             </Grid.Column>
         </Grid>
     )
