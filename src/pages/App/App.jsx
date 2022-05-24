@@ -44,23 +44,25 @@ function App() {
     );
   }
 
-  return (
-    <Routes>
-      <Route
-        path="/"
-        element={<Home />}
-      />
-      <Route
-        path="/login"
-        element={<LoginPage handleSignUpOrLogin={handleSignUpOrLogin} />}
-      />
-      <Route
-        path="/signup"
-        element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
-      />
-      <Route path="/*" element={<Navigate to="/login" />} />
-    </Routes>
-  );
+  if (!user) {
+    return (
+      <Routes>
+        <Route
+          path="/"
+          element={<Home />}
+        />
+        <Route
+          path="/login"
+          element={<LoginPage handleSignUpOrLogin={handleSignUpOrLogin} />}
+        />
+        <Route
+          path="/signup"
+          element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
+        />
+        <Route path="/*" element={<Navigate to="/login" />} />
+      </Routes>
+    );
+  }
 }
 
 export default App;

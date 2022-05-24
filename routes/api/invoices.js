@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const usersCtrl = require("../../controllers/users");
+const invoicesCtrl = require("../../controllers/invoices");
 const multer = require("multer");
 const upload = multer();
 /*---------- Public Routes ----------*/
-router.post("/signup", upload.single("photoUrl"), usersCtrl.signup);
-router.post("/login", usersCtrl.login);
+router.post("/", invoicesCtrl.create);
+router.get("/", invoicesCtrl.index);
 
 /*---------- Protected Routes ----------*/
 
