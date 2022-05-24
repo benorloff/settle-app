@@ -20,4 +20,8 @@ export default function CreateInvoiceForm(props){
         props.handleCreateInvoice(formData);
     }
 
+    return (
+        <h2>CreateInvoiceForm</h2>
+    )
+
 }
