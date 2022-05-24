@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid, Form } from 'semantic-ui-react';
 
 
-export default function LineItem({ item, user, business, handleChange }) {
+export default function LineItem({ key, name, description, rate, quantity, handleChange}) {
 
     return(
         <Grid.Row columns='equal'>
@@ -12,7 +12,7 @@ export default function LineItem({ item, user, business, handleChange }) {
                     type="text"
                     name="name"
                     placeholder="Item Name"
-                    value={item.name}
+                    value={name}
                     onChange={handleChange}
                 />
                 <Form.Input
@@ -20,7 +20,7 @@ export default function LineItem({ item, user, business, handleChange }) {
                     type="text"
                     name="description"
                     placeholder="Item Description"
-                    value={item.description}
+                    value={description}
                     onChange={handleChange}
                 />
             </Grid.Column>
@@ -29,7 +29,7 @@ export default function LineItem({ item, user, business, handleChange }) {
                     style={{ height: 30 }}
                     type="number"
                     name="rate"
-                    value={item.rate}
+                    value={rate}
                     onChange={handleChange}
                 />
             </Grid.Column>
@@ -38,7 +38,7 @@ export default function LineItem({ item, user, business, handleChange }) {
                     style={{ height: 30 }}
                     type="number"
                     name="quantity"
-                    value={item.quantity}
+                    value={quantity}
                     onChange={handleChange}
                 />  
             </Grid.Column>
@@ -47,7 +47,7 @@ export default function LineItem({ item, user, business, handleChange }) {
                     style={{ height: 30 }}
                     type="number"
                     name="subtotal"
-                    value={item.subtotal}
+                    value={rate * quantity}
                     onChange={handleChange}
                 />
             </Grid.Column>

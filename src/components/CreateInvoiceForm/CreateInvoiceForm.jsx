@@ -6,7 +6,7 @@ import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
     const [amountDue, setAmountDue] = useState('$0.00')
-    const [numLineItems, setNumLineItems] = useState({value: 1})
+    const [numLineItems, setNumLineItems] = useState({value: 0})
     const [lineItems, setLineItems] = useState([])
     const [state, setState] = useState({
         invoiceNum: '',
@@ -43,6 +43,21 @@ export default function CreateInvoiceForm(props){
         setNumLineItems(prevNumLineItems => {
             return {value: prevNumLineItems.value + 1}
         })
+        const lastItemIndex = numLineItems.value;
+        console.log(lastItemIndex, '<-last item index')
+        if (numLineItems.value === 0) {
+            setLineItems([{
+                key: '',
+                name: '',
+                description:'',
+                rate: '',
+                quantity: ''
+            }])
+        } else if (numLineItems.value === 1) {
+            setLineItems([{
+                
+            }])
+        }
     }
 
     useEffect(() => {
@@ -153,11 +168,14 @@ export default function CreateInvoiceForm(props){
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
-                        {lineItems.map((item) => {
+                        {lineItems.map((item, i) => {
                             return (
                                 <LineItem
-                                    item={item}
-                                    key={item._id}
+                                    key={i}
+                                    name={item.name}
+                                    description={item.description}
+                                    rate={item.rate}
+                                    quantity={item.quantity}
                                 />
                             )
                         })}
@@ -165,6 +183,11 @@ export default function CreateInvoiceForm(props){
                         {numLineItems.value <= 25 &&
                             <Button fluid onClick={handleAddLineItem}>
                                 Add Line Item
+                            </Button>
+                        }
+                        {numLineItems.value > 25 &&
+                            <Button fluid disabled>
+                                You've reached the maximum number of line items.
                             </Button>
                         }
                         </Grid.Row>
