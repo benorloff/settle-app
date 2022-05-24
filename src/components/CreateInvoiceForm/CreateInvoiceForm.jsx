@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import LineItem from '../LineItem/LineItem';
 import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
     const [amountDue, setAmountDue] = useState('$0.00')
+    const [lineItems, setLineItems] = useState([])
     const [state, setState] = useState({
         invoiceNum: '',
         issueDate: '',
@@ -140,53 +142,14 @@ export default function CreateInvoiceForm(props){
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
-                        <Grid.Row columns='equal'>
-                            <Grid.Column width={10}>
-                                <Form.Input
-                                    style={{ height: 30 }}
-                                    type="text"
-                                    name="name"
-                                    placeholder="Item Name"
-                                    value={state.name}
-                                    onChange={handleChange}
+                        {lineItems.map((item) => {
+                            return (
+                                <LineItem
+                                    item={item}
+                                    key={item._id}
                                 />
-                                <Form.Input
-                                    style={{ height: 30 }}
-                                    type="text"
-                                    name="description"
-                                    placeholder="Item Description"
-                                    value={state.description}
-                                    onChange={handleChange}
-                                />
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <Form.Input
-                                    style={{ height: 30 }}
-                                    type="number"
-                                    name="rate"
-                                    value={state.rate}
-                                    onChange={handleChange}
-                                />
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <Form.Input
-                                    style={{ height: 30 }}
-                                    type="number"
-                                    name="quantity"
-                                    value={state.quantity}
-                                    onChange={handleChange}
-                                />  
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <Form.Input
-                                    style={{ height: 30 }}
-                                    type="text"
-                                    name="description"
-                                    value={state.description}
-                                    onChange={handleChange}
-                                />
-                            </Grid.Column>
-                        </Grid.Row>
+                            )
+                        })}
                     </Grid>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
