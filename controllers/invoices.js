@@ -10,8 +10,13 @@ module.exports = {
     index,
   };
 
-function create(req, res) {
-    pass
+async function create(req, res) {
+    try {
+        const invoice = await Invoice.create(req.body);
+        console.log(invoice)
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 function index(req, res) {

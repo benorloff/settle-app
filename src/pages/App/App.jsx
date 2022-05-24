@@ -38,7 +38,11 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={<Dashboard />}
+          element={<Dashboard user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
+          path="/invoice/new"
+          element={<NewInvoice user={user} handleLogout={handleLogout}/>}
         />
       </Routes>
     );
