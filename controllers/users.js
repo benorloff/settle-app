@@ -6,6 +6,8 @@ const S3 = require("aws-sdk/clients/s3");
 const s3 = new S3(); // initialize the construcotr
 // now s3 can crud on our s3 buckets
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+
 module.exports = {
   signup,
   login,
@@ -14,21 +16,20 @@ module.exports = {
 function signup(req, res) {
   console.log(req.body, req.file);
 
-  //////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////////
-
-  // FilePath unique name to be saved to our butckt
   const filePath = `users/${uuidv4()}-${req.file.originalname}`;
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Key: filePath,
     Body: req.file.buffer,
   };
-  //your bucket name goes where collectorcat is
-  //////////////////////////////////////////////////////////////////////////////////
+  
+  const account = await stripe.accounts.create({
+    type: 'standard',
+    email: req.body.email,
+  });
+
   s3.upload(params, async function (err, data) {
-    console.log(data, "from aws"); // data.Location is our photoUrl that exists on aws
+    console.log(data, "from aws"); 
     const user = new User({ ...req.body, photoUrl: data.Location });
     try {
       await user.save();
@@ -39,7 +40,6 @@ function signup(req, res) {
       res.status(400).json(err);
     }
   });
-  //////////////////////////////////////////////////////////////////////////////////
 }
 
 async function login(req, res) {
