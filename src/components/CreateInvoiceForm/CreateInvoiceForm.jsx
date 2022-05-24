@@ -6,6 +6,7 @@ import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
     const [amountDue, setAmountDue] = useState('$0.00')
+    const [numLineItems, setNumLineItems] = useState({value: 1})
     const [lineItems, setLineItems] = useState([])
     const [state, setState] = useState({
         invoiceNum: '',
@@ -38,6 +39,12 @@ export default function CreateInvoiceForm(props){
         props.handleCreateInvoice(formData);
     }
 
+    function handleAddLineItem(){
+        setNumLineItems(prevNumLineItems => {
+            return {value: prevNumLineItems.value + 1}
+        })
+    }
+
     useEffect(() => {
         function getDate() {
             const date = new Date();
@@ -52,6 +59,10 @@ export default function CreateInvoiceForm(props){
         }
         getDate();
     }, [])
+
+    useEffect(() => {
+        console.log(numLineItems, '<- numLineItems on component did mount')
+    }, [numLineItems])
 
     return (
         <Grid style={{ height: "100vh"}} verticalAlign="middle" centered container>
@@ -150,6 +161,13 @@ export default function CreateInvoiceForm(props){
                                 />
                             )
                         })}
+                        <Grid.Row>
+                        {numLineItems.value <= 25 &&
+                            <Button fluid onClick={handleAddLineItem}>
+                                Add Line Item
+                            </Button>
+                        }
+                        </Grid.Row>
                     </Grid>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
