@@ -12,6 +12,7 @@ function App() {
   const [user, setUser] = useState(userService.getUser()); // getUser decodes our JWT token, into a javascript object
   // this object corresponds to the jwt payload which is defined in the server signup or login function that looks like
   // this  const token = createJWT(user); // where user was the document we created from mongo
+  const [business, setBusiness] = useState('')
 
   function handleSignUpOrLogin() {
     setUser(userService.getUser()); // getting the user from localstorage decoding the jwt
@@ -39,11 +40,11 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={<Dashboard user={user} handleLogout={handleLogout}/>}
+          element={<Dashboard user={user} business={business} handleLogout={handleLogout}/>}
         />
         <Route
           path="/invoice/new"
-          element={<InvoiceNew user={user} handleLogout={handleLogout}/>}
+          element={<InvoiceNew user={user} business={business} handleLogout={handleLogout}/>}
         />
       </Routes>
     );

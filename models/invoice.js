@@ -60,6 +60,9 @@ const invoiceSchema = new mongoose.Schema(
             type: Date,
             required: true
         },
+        reference: {
+            type: String
+        },
         invoiceItems: [invoiceItemSchema],
         notes: {
             type: String

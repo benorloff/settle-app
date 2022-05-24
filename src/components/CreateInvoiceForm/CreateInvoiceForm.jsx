@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
-import { Button, Form, Grid, Segment } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 
 export default function CreateInvoiceForm(props){
-    const [state, setState] = useState({})
+    const [error, setError] = useState('')
+    const [amountDue, setAmountDue] = useState('$0.00')
+    const [state, setState] = useState({
+        invoiceNum: '',
+        issueDate: '',
+        dueDate: '',
+        reference: '',
+        invoiceItems: [],
+        notes: '',
+        terms: '',
+        attachments: [],
+        businessId: '',
+        userId: '',
+        clientId: '',
+        contactId: ''
+    })
 
     function handleChange(e){
         setState({
@@ -20,8 +36,162 @@ export default function CreateInvoiceForm(props){
         props.handleCreateInvoice(formData);
     }
 
+    useEffect(() => {
+        function getDate() {
+            const date = new Date();
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            const day = date.getDate();
+            setState({ 
+                ...state,
+                issueDate: `${year}-${month < 10 ? '0' + (month + 1) : (month + 1)}-${day < 10 ? '0' + day : day}`, 
+                dueDate: `${year}-${month < 10 ? '0' + (month + 1) : (month + 1)}-${day < 10 ? '0' + day : day}`
+            })
+        }
+        getDate();
+    }, [])
+
     return (
-        <h2>CreateInvoiceForm</h2>
+        <Grid style={{ height: "100vh"}} verticalAlign="middle" centered container>
+            <Grid.Column style={{ maxWidth: 750 }}>
+                <Form autoComplete="off" onSubmit={handleSubmit}>
+                    <Grid stackable>
+                        <Grid.Row columns={3}>
+                            <Grid.Column>
+                                <Form.Input
+                                    type="number"
+                                    name="invoiceNum"
+                                    placeholder="Invoice Number"
+                                    label="Invoice Number"
+                                    value={state.invoiceNum}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Form.Input
+                                    type="date"
+                                    name="issueDate"
+                                    label="Date of Issue"
+                                    value={state.issueDate}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Form.Input
+                                    type="date"
+                                    name="dueDate"
+                                    label="Due Date"
+                                    value={state.dueDate}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row columns={3}>
+                            <Grid.Column>
+                                <Form.Select
+                                    name="contactId"
+                                    placeholder="Client Contact"
+                                    label="Billed To"
+                                    value={state.clientId}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Form.Input
+                                    type="text"
+                                    name="reference"
+                                    placeholder="Enter value (e.g. PO #)"
+                                    label="Reference"
+                                    value={state.reference}
+                                    onChange={handleChange}
+                                />
+                            </Grid.Column>
+                            <Grid.Column textAlign='right'>
+                                <div className='field'>
+                                    <label>Amount Due</label>
+                                    <h1 style={{ marginTop: 0 }}>{amountDue}</h1>
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Divider />
+                        <Grid.Row columns='equal'>
+                            <Grid.Column width={10}>
+                                <div className='field'>
+                                    <label>Description</label>
+                                </div>
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <div className='field'>
+                                    <label>Rate</label>
+                                </div>
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <div className='field'>
+                                    <label>Qty</label>
+                                </div>  
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <div className='field'>
+                                    <label>Line Total</label>
+                                </div>
+                            </Grid.Column>
+                        </Grid.Row>
+                        <Grid.Row columns='equal'>
+                            <Grid.Column width={10}>
+                                <Form.Input
+                                    style={{ height: 30 }}
+                                    type="text"
+                                    name="name"
+                                    placeholder="Item Name"
+                                    value={state.name}
+                                    onChange={handleChange}
+                                />
+                                <Form.Input
+                                    style={{ height: 30 }}
+                                    type="text"
+                                    name="description"
+                                    placeholder="Item Description"
+                                    value={state.description}
+                                    onChange={handleChange}
+                                />
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <Form.Input
+                                    style={{ height: 30 }}
+                                    type="number"
+                                    name="rate"
+                                    value={state.rate}
+                                    onChange={handleChange}
+                                />
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <Form.Input
+                                    style={{ height: 30 }}
+                                    type="number"
+                                    name="quantity"
+                                    value={state.quantity}
+                                    onChange={handleChange}
+                                />  
+                            </Grid.Column>
+                            <Grid.Column width={2} textAlign='right'>
+                                <Form.Input
+                                    style={{ height: 30 }}
+                                    type="text"
+                                    name="description"
+                                    value={state.description}
+                                    onChange={handleChange}
+                                />
+                            </Grid.Column>
+                        </Grid.Row>
+                    </Grid>
+                    {error ? <ErrorMessage error={error} /> : null}
+                </Form>
+            </Grid.Column>
+        </Grid>
     )
 
 }

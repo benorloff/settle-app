@@ -8,7 +8,7 @@ import * as invoiceApi from '../../utils/invoiceApi';
 
 import { Grid } from 'semantic-ui-react';
 
-export default function InvoiceNew({ user, handleLogout }) {
+export default function InvoiceNew({ user, business, handleLogout }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -44,7 +44,7 @@ export default function InvoiceNew({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            <CreateInvoiceForm />
+            <CreateInvoiceForm user={user} business={business} />
         </>
     )
 
