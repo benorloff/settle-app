@@ -5,6 +5,7 @@ import Home from "../Home/Home";
 import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import Dashboard from "../Dashboard/Dashboard";
+import InvoiceNew from '../InvoiceNew/InvoiceNew';
 import userService from "../../utils/userService";
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
         />
         <Route
           path="/invoice/new"
-          element={<NewInvoice user={user} handleLogout={handleLogout}/>}
+          element={<InvoiceNew user={user} handleLogout={handleLogout}/>}
         />
       </Routes>
     );

@@ -14,7 +14,7 @@ async function create(req, res) {
     try {
         const invoice = await Invoice.create(req.body);
         console.log(invoice)
-    } catch (err) {
+    } catch(err) {
         console.log(err);
     }
 }
