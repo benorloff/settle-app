@@ -27,6 +27,7 @@ app.use("/api/invoices", require("./routes/api/invoices"));
 // app.use("/api/businesses", require("./routes/api/businesses"));
 // app.use("/api/clients", require("./routes/api/clients"));
 // app.use("/api/contacts", require("./routes/api/contacts"));
+app.use("/api/stripe", require("./routes/api/stripe"));
 
 // "catch all" route
 app.get("/*", function (req, res) {

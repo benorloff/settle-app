@@ -8,6 +8,8 @@ import 'react-image-crop/dist/ReactCrop.css';
 
 export default function SignUpPage(props) {
 
+  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+
   const [error, setError] = useState('')
   const [state, setState] = useState({
     email: '',
