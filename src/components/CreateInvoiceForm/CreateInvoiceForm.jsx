@@ -181,6 +181,7 @@ export default function CreateInvoiceForm(props){
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
+                        <Divider fitted />
                         {inactiveLineItems.map((item, i) => {
                             return (
                                 <InactiveLineItem 
