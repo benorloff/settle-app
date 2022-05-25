@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
 import ActiveLineItem from '../ActiveLineItem/ActiveLineItem';
-import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
+import { Button, Form, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
@@ -214,6 +214,35 @@ export default function CreateInvoiceForm(props){
                         You've reached the maximum number of line items.
                     </Button>
                 }
+                <Divider />
+                <Grid>
+                    <Grid.Column floated='right' width={8}>
+                        <Table basic='very' textAlign='right'>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell>Subtotal</Table.Cell>
+                                    <Table.Cell>0.00</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>Tax</Table.Cell>
+                                    <Table.Cell>0.00</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>Total</Table.Cell>
+                                    <Table.Cell>0.00</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell>Amount Paid</Table.Cell>
+                                    <Table.Cell>0.00</Table.Cell>
+                                </Table.Row>
+                                <Table.Row>
+                                    <Table.Cell><h3>Amount Due</h3></Table.Cell>
+                                    <Table.Cell><h3>$0.00</h3></Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
+                    </Grid.Column>
+                </Grid>
             </Grid.Column>
         </Grid>
     )
