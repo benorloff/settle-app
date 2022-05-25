@@ -110,9 +110,22 @@ export default function CreateInvoiceForm(props){
     return (
         <Grid style={{ height: "100vh"}} verticalAlign="middle" centered container>
             <Grid.Column style={{ maxWidth: 750 }}>
+                <Grid>
+                    <Grid.Row columns='equal' verticalAlign='middle'>
+                        <Grid.Column width={10}>
+                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Client</h1>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                            <Button>button</Button>
+                        </Grid.Column>
+                        <Grid.Column width={3}>
+                            <Button>button</Button>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+                <Segment raised>
                 <Form autoComplete="off" onSubmit={handleSubmit}>
-                    <button type="submit">Send</button>
-                    <Grid stackable>
+                    <Grid stackable padded>
                         <Grid.Row columns={3}>
                             <Grid.Column>
                                 <Form.Input
@@ -193,7 +206,7 @@ export default function CreateInvoiceForm(props){
                             </Grid.Column>
                             <Grid.Column width={2} textAlign='right'>
                                 <div className='field'>
-                                    <label>Line Total</label>
+                                    <label>Total</label>
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
@@ -231,7 +244,7 @@ export default function CreateInvoiceForm(props){
                     </Button>
                 }
                 <Divider />
-                <Grid>
+                <Grid padded>
                     <Grid.Column floated='right' width={8}>
                         <Table basic='very' textAlign='right'>
                             <Table.Body>
@@ -259,6 +272,7 @@ export default function CreateInvoiceForm(props){
                         </Table>
                     </Grid.Column>
                 </Grid>
+                </Segment>
             </Grid.Column>
         </Grid>
     )

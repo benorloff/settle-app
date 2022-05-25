@@ -1,29 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
-import ActiveLineItem from '../ActiveLineItem/ActiveLineItem';
 import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 
-export default function CreateClientForm(props){
+export default function CreateClientForm({ user, handleCreateClient }){
     const [error, setError] = useState('')
     const [state, setState] = useState({
-        invoiceNum: '',
-        issueDate: '',
-        dueDate: '',
-        reference: '',
-        invoiceItems: [],
-        notes: '',
-        terms: '',
-        subtotal: '',
-        tax: '',
-        total: '',
-        amountPaid: '',
-        amountDue: '',
-        attachments: [],
-        businessId: '',
-        userId: '',
-        clientId: '',
-        contactId: ''
+        firstName: '',
+        lastName: '',
+        company: '',
+        role: '',
+        email: [],
+        phone: '',
+        address1: '',
+        address2: '',
+        city: '',
+        state: '',
+        zipCode: '',
+        country: ''
     })
 
     function handleChange(e){
@@ -40,7 +33,7 @@ export default function CreateClientForm(props){
         for (let key in state){
             formData.append(key, state[key])
         }
-        props.handleCreateInvoice(formData);
+        handleCreateClient(formData);
     }
 
     return (

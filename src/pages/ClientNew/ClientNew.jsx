@@ -5,13 +5,12 @@ import CreateClientForm from '../../components/CreateClientForm/CreateClientForm
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Loading from "../../components/Loader/Loader";
 
-import { Grid } from 'semantic-ui-react';
-
 export default function ClientNew({ user, handleLogout }) {
+    
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
-    async function handleCreateInvoice(invoice) {
+    async function handleCreateClient(formData) {
         try {
             setLoading(true);
             // const data = await invoiceApi.create(invoice);
@@ -43,7 +42,7 @@ export default function ClientNew({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            <CreateClientForm user={user} />
+            <CreateClientForm user={user} handleCreateClient={handleCreateClient} />
         </>
     )
 
