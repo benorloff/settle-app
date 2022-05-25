@@ -25,7 +25,7 @@ app.use(require("./config/auth"));
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/invoices", require("./routes/api/invoices"));
 // app.use("/api/businesses", require("./routes/api/businesses"));
-// app.use("/api/clients", require("./routes/api/clients"));
+app.use("/api/clients", require("./routes/api/clients"));
 // app.use("/api/contacts", require("./routes/api/contacts"));
 app.use("/api/stripe", require("./routes/api/stripe"));
 

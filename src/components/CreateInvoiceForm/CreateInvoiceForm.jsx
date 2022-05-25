@@ -113,7 +113,7 @@ export default function CreateInvoiceForm(props){
                 <Grid>
                     <Grid.Row columns='equal' verticalAlign='middle'>
                         <Grid.Column width={10}>
-                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Client</h1>
+                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Invoice</h1>
                         </Grid.Column>
                         <Grid.Column width={3}>
                             <Button>button</Button>

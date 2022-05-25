@@ -2,20 +2,46 @@ const mongoose = require("mongoose");
 
 const clientSchema = new mongoose.Schema(
     {
-        entityType: { 
-            type: String,
-            enum: ['Individual', 'Company'],
-            required: true        
-        },
-        name: { 
+        firstName: { 
             type: String, 
             required: true, 
         },
+        lastName: { 
+            type: String, 
+            required: true, 
+        },
+        company: { 
+            type: String 
+        },
+        role: { 
+            type: String 
+        },
+        email: { 
+            type: String,
+            required: true 
+        },
+        phone: { 
+            type: String
+        },
+        address1: { 
+            type: String
+        },
+        address2: { 
+            type: String
+        },
+        city: { 
+            type: String
+        },
+        state: { 
+            type: String
+        },
+        zipCode: { 
+            type: String
+        },
+        country: { 
+            type: String
+        },
         photoUrl: String,
-        businessId: {
-            type: mongoose.Types.ObjectId, 
-            ref: 'Business' 
-        }
     },
     {
       timestamps: true,

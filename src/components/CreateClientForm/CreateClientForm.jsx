@@ -45,10 +45,10 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Client</h1>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button>button</Button>
+                            <Button>Cancel</Button>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button>button</Button>
+                            <Button onClick={handleSubmit}>Save</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
