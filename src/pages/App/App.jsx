@@ -6,6 +6,7 @@ import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import Dashboard from "../Dashboard/Dashboard";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
+import ClientNew from '../ClientNew/ClientNew';
 import userService from "../../utils/userService";
 
 function App() {
@@ -40,11 +41,15 @@ function App() {
         />
         <Route
           path="/dashboard"
-          element={<Dashboard user={user} business={business} handleLogout={handleLogout}/>}
+          element={<Dashboard user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/invoice/new"
-          element={<InvoiceNew user={user} business={business} handleLogout={handleLogout}/>}
+          element={<InvoiceNew user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
+          path="/client/new"
+          element={<ClientNew user={user} handleLogout={handleLogout}/>}
         />
       </Routes>
     );
