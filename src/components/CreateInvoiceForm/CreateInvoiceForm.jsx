@@ -6,7 +6,6 @@ import { Button, Form, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 
 export default function CreateInvoiceForm(props){
     const [error, setError] = useState('')
-    const [amountDue, setAmountDue] = useState('$0.00')
     const [numLineItems, setNumLineItems] = useState({value: 1})
     const [inactiveLineItems, setInactiveLineItems] = useState([])
     const [activeLineItem, setActiveLineItem] = useState({
@@ -23,6 +22,11 @@ export default function CreateInvoiceForm(props){
         invoiceItems: [],
         notes: '',
         terms: '',
+        subtotal: '',
+        tax: '',
+        total: '',
+        amountPaid: '',
+        amountDue: '',
         attachments: [],
         businessId: '',
         userId: '',
@@ -67,11 +71,11 @@ export default function CreateInvoiceForm(props){
     }
 
     useEffect(() => {
-        function getDate() {
-            const date = new Date();
-            const year = date.getFullYear();
-            const month = date.getMonth();
-            const day = date.getDate();
+        async function getDate() {
+            const date = await new Date();
+            const year = await date.getFullYear();
+            const month = await date.getMonth();
+            const day = await date.getDate();
             setState({ 
                 ...state,
                 issueDate: `${year}-${month < 10 ? '0' + (month + 1) : (month + 1)}-${day < 10 ? '0' + day : day}`, 
@@ -88,6 +92,18 @@ export default function CreateInvoiceForm(props){
             rate: '',
             quantity: '',
         });
+        async function subtotal() {
+            let subtotal = 0
+            await inactiveLineItems.forEach((item) => {
+                subtotal += (item.rate * item.quantity)
+            })
+            console.log(subtotal, '<-sum from subtotal function')
+            return subtotal;
+        }
+        setState({
+            ...state,
+            invoiceItems: inactiveLineItems
+        })
         console.log(activeLineItem)
     }, [numLineItems])
 
@@ -154,7 +170,7 @@ export default function CreateInvoiceForm(props){
                             <Grid.Column textAlign='right'>
                                 <div className='field'>
                                     <label>Amount Due</label>
-                                    <h1 style={{ marginTop: 0 }}>{amountDue}</h1>
+                                    <h1 style={{ marginTop: 0 }}>$0.00</h1>
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
@@ -221,7 +237,7 @@ export default function CreateInvoiceForm(props){
                             <Table.Body>
                                 <Table.Row>
                                     <Table.Cell>Subtotal</Table.Cell>
-                                    <Table.Cell>0.00</Table.Cell>
+                                    <Table.Cell>${state.subtotal ? state.subtotal : '0.00'}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell>Tax</Table.Cell>
