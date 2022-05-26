@@ -4,7 +4,7 @@ import { Menu } from 'semantic-ui-react';
 
 export default function Header({ user, handleLogout }){
     return(
-        <Menu stackable>
+        <Menu>
             <Menu.Item>
                 <Link to="/dashboard">
                     <h2>Logo</h2>

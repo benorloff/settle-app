@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Grid, Container, Button } from 'semantic-ui-react';
+import { useNavigate } from 'react-router-dom';
+import { Card, Grid, Container, Button, Icon, Divider, Table, Menu } from 'semantic-ui-react';
 import Header from "../../components/Header/Header";
 import ClientCard from '../../components/ClientCard/ClientCard';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
@@ -13,6 +14,8 @@ export default function Clients({ user, handleLogout }) {
     const [loading, setLoading] = useState(false);
     const [clients, setClients] = useState([]);
     const [recentClients, setRecentClients] = useState([]);
+
+    const navigate = useNavigate();
 
     async function getClients() {
         try {
@@ -35,6 +38,10 @@ export default function Clients({ user, handleLogout }) {
             console.log(err.message)
             setError(err.message)
         }
+    }
+
+    function handleNewClientBtnClick() {
+        navigate('/client/new')
     }
 
     useEffect(() => {
@@ -79,10 +86,25 @@ export default function Clients({ user, handleLogout }) {
                 <Grid verticalAlign="middle" centered>
                     <Grid.Row columns='equal' verticalAlign='middle'>
                         <Grid.Column width={8}>
-                        <h1 style={{ marginTop: 20, marginBottom: 20 }}>Clients</h1>
+                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>Clients</h1>
                         </Grid.Column>
-                        <Grid.Column width={8}>
-                            
+                        <Grid.Column width={8} textAlign='right'>
+                            <Button 
+                                type='button' 
+                                color='blue' 
+                                icon 
+                                labelPosition='right'
+                                onClick={handleNewClientBtnClick}
+                            >
+                                <Icon name='plus' />
+                                New Client
+                            </Button>  
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                    <Grid.Row>
+                        <Grid.Column>
+                            <h2>Recently Active</h2>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -98,6 +120,28 @@ export default function Clients({ user, handleLogout }) {
                                     )
                                 })}
                             </Card.Group>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Divider />
+                    <Grid.Row>
+                        <Grid.Column>
+                            <h2>All Clients</h2>
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Table basic sortable>
+                                <Table.Header>
+                                    <Table.Row>
+                                        <Table.HeaderCell>Name/Company</Table.HeaderCell>
+                                        <Table.HeaderCell>Actions</Table.HeaderCell>
+                                        <Table.HeaderCell>Total Outstanding</Table.HeaderCell>
+                                    </Table.Row>
+                                </Table.Header>
+                                <Table.Body>
+
+                                </Table.Body>
+                            </Table>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
