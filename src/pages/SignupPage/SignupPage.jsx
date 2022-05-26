@@ -36,13 +36,13 @@ export default function SignUpPage(props) {
     for (let key in state){
       formData.append(key, state[key])
     }
-    formData.forEach((item) => console.log(item), " <-- form data")
     try {
       await userService.signup(formData)
-      const stripeAccountLinkUrl = await stripeService.getUrlFromAccountLink()
-      console.log(stripeAccountLinkUrl, '<--stripeAccountLinkUrl from stripeService after signup')
+      // console.log('userService.signup is done')
+      // const stripeAccountLinkUrl = await stripeService.getUrlFromAccountLink()
+      // console.log(stripeAccountLinkUrl, '<--stripeAccountLinkUrl from stripeService after signup')
       props.handleSignUpOrLogin()
-      navigate('/stripe-onboard')
+      navigate('/dashboard')
     } catch(err){
       setError(err.message)
     }
@@ -51,13 +51,6 @@ export default function SignUpPage(props) {
   function handleFileInput(e){
     console.log(e.target.files, " <-- e.target.files");
     setSelectedFile(e.target.files[0])
-    // const reader = new FileReader()
-    // reader.addEventListener('load', () =>
-    //   setSelectedFile(reader.result.toString() || ''),
-    // )
-    // reader.readAsDataURL(e.target.files[0])
-    // console.log(selectedFile)
-    // setModalOpen(true)
   }
 
   return (

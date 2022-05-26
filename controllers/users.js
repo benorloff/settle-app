@@ -14,39 +14,44 @@ module.exports = {
 };
 
 async function signup(req, res) {
-  console.log(req.body, req.file);
+  console.log(req.body, '<-req.body', req.file, '<-req.file');
 
   const filePath = `users/${uuidv4()}-${req.file.originalname}`;
+  console.log(filePath, '<-aws filePath')
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Key: filePath,
     Body: req.file.buffer,
   };
+  console.log(params, '<-aws params')
   
   const account = await stripe.accounts.create({
     type: 'standard',
     email: req.body.email,
   });
+  console.log(account, '<-stripe account object')
 
   const accountLink = await stripe.accountLinks.create({
     account: account.id,
-    refresh_url: '/login',
-    return_url: '/dashboard',
+    refresh_url: 'http://localhost:3000/login',
+    return_url: 'http://localhost:3000/dashboard',
     type: 'account_onboarding',
   })
+  console.log(accountLink, '<-stripe accountLink object')
 
   s3.upload(params, async function (err, data) {
-    console.log(data, "from aws"); 
+    console.log(data, "data from aws"); 
+    console.log(accountLink, '<-accountLink in s3.upload');
     const user = new User({ ...req.body, photoUrl: data.Location, stripeAccountId: account.id });
+    console.log(user, 'new user');
     try {
       await user.save();
-      const token = createJWT(user); // user is the payload so this is the object in our jwt
-      const accountLink = createJWTForAccountLink(accountLink);
-      res.json({ token, accountLink });
+      const token = createJWT(user);
+      res.json({ token });
     } catch (err) {
       // Probably a duplicate email
       res.status(400).json(err);
-    }
+    };
   });
 }
 
