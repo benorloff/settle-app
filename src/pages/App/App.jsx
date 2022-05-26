@@ -9,15 +9,14 @@ import Clients from "../Clients/Clients";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
 import ClientNew from '../ClientNew/ClientNew';
 import userService from "../../utils/userService";
+import stripeService from "../../utils/stripeService";
 
 function App() {
-  const [user, setUser] = useState(userService.getUser()); // getUser decodes our JWT token, into a javascript object
-  // this object corresponds to the jwt payload which is defined in the server signup or login function that looks like
-  // this  const token = createJWT(user); // where user was the document we created from mongo
-  const [business, setBusiness] = useState('')
+  const [user, setUser] = useState(userService.getUser());
+  const [stripeAccountLinkUrl, setStripeAccountLinkUrl] = useState(stripeService.getUrlFromAccountLink());
 
   function handleSignUpOrLogin() {
-    setUser(userService.getUser()); // getting the user from localstorage decoding the jwt
+    setUser(userService.getUser());
   }
 
   function handleLogout() {
@@ -40,10 +39,13 @@ function App() {
           path="/signup"
           element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
         />
-        {/* <Route
+        <Route
           path="/stripe-onboard"
-          element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
-        /> */}
+          element={() => {
+            window.location.replace(stripeAccountLinkUrl);
+            return null;
+          }}
+        />
         <Route
           path="/dashboard"
           element={<Dashboard user={user} handleLogout={handleLogout}/>}

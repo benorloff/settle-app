@@ -40,8 +40,9 @@ export default function SignUpPage(props) {
     try {
       await userService.signup(formData)
       const stripeAccountLinkUrl = await stripeService.getUrlFromAccountLink()
+      console.log(stripeAccountLinkUrl, '<--stripeAccountLinkUrl from stripeService after signup')
       props.handleSignUpOrLogin()
-      navigate('/dashboard')
+      navigate('/stripe-onboard')
     } catch(err){
       setError(err.message)
     }
