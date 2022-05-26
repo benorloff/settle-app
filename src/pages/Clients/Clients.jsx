@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Grid, Container, Button, Icon, Divider, Table, Menu } from 'semantic-ui-react';
 import Header from "../../components/Header/Header";
 import ClientCard from '../../components/ClientCard/ClientCard';
+import ClientRow from '../../components/ClientRow/ClientRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Loading from '../../components/Loader/Loader';
 
@@ -133,13 +134,20 @@ export default function Clients({ user, handleLogout }) {
                             <Table basic sortable>
                                 <Table.Header>
                                     <Table.Row>
-                                        <Table.HeaderCell>Name/Company</Table.HeaderCell>
-                                        <Table.HeaderCell>Actions</Table.HeaderCell>
-                                        <Table.HeaderCell>Total Outstanding</Table.HeaderCell>
+                                        <Table.HeaderCell>Name</Table.HeaderCell>
+                                        <Table.HeaderCell>Company</Table.HeaderCell>
+                                        <Table.HeaderCell collapsing>Actions</Table.HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
-
+                                    {clients.map((client, i) => {
+                                        return (
+                                            <ClientRow
+                                                key={i}
+                                                client={client}
+                                            />
+                                        )
+                                    })}
                                 </Table.Body>
                             </Table>
                         </Grid.Column>

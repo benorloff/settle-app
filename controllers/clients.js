@@ -9,11 +9,20 @@ async function create(req, res) {
     console.log(req.body, '<- req.body')
     try {
         // CREATE STRIPE CUSTOMER ID HERE
-        // const customer = await stripe.customers.create({
-        //     key: 'value',
-        //     key: 'value'
-        // })
-        const client = await new Client({ ...req.body, userId: req.user });
+        const customer = await stripe.customers.create({
+            email: req.body.email,
+            phone: req.body.phone,
+            name: `${req.body.firstName} ${req.body.lastName}`,
+            address: {
+                line1: req.body.address1,
+                line2: req.body.address2,
+                city: req.body.city,
+                state: req.body.state,
+                postal_code: req.body.zipCode,
+            }
+        })
+        console.log(customer, '<- customer object from Stripe')
+        const client = await new Client({ ...req.body, userId: req.user, stripeCustomerId: customer.id });
         await client.save();
         console.log(client, '<-client created from clientsCtrl.create')
         res.status(201).json({client})
