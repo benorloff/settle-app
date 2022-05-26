@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Grid, Button } from 'semantic-ui-react';
+import { Card, Grid, Container, Button } from 'semantic-ui-react';
 import Header from "../../components/Header/Header";
 import ClientCard from '../../components/ClientCard/ClientCard';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
@@ -29,6 +29,7 @@ export default function Clients({ user, handleLogout }) {
             const sortedClients = [...clients].sort((a,b) => b.updatedAt - a.updatedAt)
             const recentClients = [...sortedClients].slice(-4)
             const recentClientsDesc = recentClients.reverse()
+            console.log(recentClientsDesc)
             setRecentClients(recentClientsDesc)
         } catch (err) {
             console.log(err.message)
@@ -38,6 +39,18 @@ export default function Clients({ user, handleLogout }) {
 
     useEffect(() => {
         getClients();
+        function getRecentClients() {
+            try {
+                const sortedClients = [...clients].sort((a,b) => b.updatedAt - a.updatedAt)
+                const recentClients = [...sortedClients].slice(-4)
+                const recentClientsDesc = recentClients.reverse()
+                console.log(recentClientsDesc)
+                setRecentClients(recentClientsDesc)
+            } catch (err) {
+                console.log(err.message)
+                setError(err.message)
+            }
+        }
         getRecentClients();
     }, []);
 
@@ -62,23 +75,33 @@ export default function Clients({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            <Grid verticalAlign="middle" centered>
-                <Grid.Row>
-                    <Grid.Column style={{ maxWidth: 1000 }}>
-                        <Card.Group itemsPerRow={4} centered doubling>
-                            {recentClients.map((client, i) => {
-                                return (
-                                    <ClientCard
-                                        key={i}
-                                        client={client}
-                                        user={user}
-                                    />
-                                )
-                            })}
-                        </Card.Group>
-                    </Grid.Column>
-                </Grid.Row>
-            </Grid>
+            <Container>
+                <Grid verticalAlign="middle" centered>
+                    <Grid.Row columns='equal' verticalAlign='middle'>
+                        <Grid.Column width={8}>
+                        <h1 style={{ marginTop: 20, marginBottom: 20 }}>Clients</h1>
+                        </Grid.Column>
+                        <Grid.Column width={8}>
+                            
+                        </Grid.Column>
+                    </Grid.Row>
+                    <Grid.Row>
+                        <Grid.Column>
+                            <Card.Group itemsPerRow={4} centered doubling>
+                                {recentClients.map((client, i) => {
+                                    return (
+                                        <ClientCard
+                                            key={i}
+                                            client={client}
+                                            user={user}
+                                        />
+                                    )
+                                })}
+                            </Card.Group>
+                        </Grid.Column>
+                    </Grid.Row>
+                </Grid>
+            </Container>
         </>
     )
     
