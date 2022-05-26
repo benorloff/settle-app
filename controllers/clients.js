@@ -10,6 +10,7 @@ async function create(req, res) {
     try {
         // CREATE STRIPE CUSTOMER ID HERE
         const customer = await stripe.customers.create({
+            stripeAccount: req.user.stripeAccountId,
             email: req.body.email,
             phone: req.body.phone,
             name: `${req.body.firstName} ${req.body.lastName}`,
