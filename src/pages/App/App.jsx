@@ -5,6 +5,7 @@ import Home from "../Home/Home";
 import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import Dashboard from "../Dashboard/Dashboard";
+import Clients from "../Clients/Clients";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
 import ClientNew from '../ClientNew/ClientNew';
 import userService from "../../utils/userService";
@@ -42,6 +43,10 @@ function App() {
         <Route
           path="/dashboard"
           element={<Dashboard user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
+          path="/clients"
+          element={<Clients user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/invoice/new"

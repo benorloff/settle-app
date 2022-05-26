@@ -32,7 +32,6 @@ function getAll() {
     )
 }
 
-
 const clientApi = {
     create,
     getAll,
