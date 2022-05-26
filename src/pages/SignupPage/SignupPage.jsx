@@ -5,6 +5,7 @@ import userService from "../../utils/userService";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
+import stripeService from "../../utils/stripeService";
 
 export default function SignUpPage(props) {
 
@@ -38,6 +39,7 @@ export default function SignUpPage(props) {
     formData.forEach((item) => console.log(item), " <-- form data")
     try {
       await userService.signup(formData)
+      const stripeAccountLinkUrl = await stripeService.getUrlFromAccountLink()
       props.handleSignUpOrLogin()
       navigate('/dashboard')
     } catch(err){

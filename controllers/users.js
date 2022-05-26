@@ -41,6 +41,7 @@ async function signup(req, res) {
     try {
       await user.save();
       const token = createJWT(user); // user is the payload so this is the object in our jwt
+      const accountLink = createJWTForAccountLink(accountLink);
       res.json({ token, accountLink });
     } catch (err) {
       // Probably a duplicate email
@@ -73,6 +74,14 @@ async function login(req, res) {
 function createJWT(user) {
   return jwt.sign(
     { user }, // data payload
+    SECRET,
+    { expiresIn: "24h" }
+  );
+}
+
+function createJWTForAccountLink(accountLink) {
+  return jwt.sign(
+    { accountLink },
     SECRET,
     { expiresIn: "24h" }
   );

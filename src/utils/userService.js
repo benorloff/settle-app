@@ -1,4 +1,5 @@
 import tokenService from "./tokenService";
+import stripeService from "./stripeService";
 
 const BASE_URL = "/api/users/";
 
@@ -17,6 +18,8 @@ function signup(user) {
       })
       // Parameter destructuring!
       .then(({ token }) => tokenService.setToken(token))
+      // Get the accountLink from res.json and set it to local storage
+      .then(({ accountLink }) => stripeService.setAccountLink(accountLink))
   );
   // Setting our token in localStorage in our browser
   // then we'll be able to use with every request!

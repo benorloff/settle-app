@@ -40,6 +40,10 @@ function App() {
           path="/signup"
           element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
         />
+        {/* <Route
+          path="/stripe-onboard"
+          element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
+        /> */}
         <Route
           path="/dashboard"
           element={<Dashboard user={user} handleLogout={handleLogout}/>}
@@ -56,6 +60,7 @@ function App() {
           path="/client/new"
           element={<ClientNew user={user} handleLogout={handleLogout}/>}
         />
+        <Route path="/*" element={<Navigate to="/dashboard" />} />
       </Routes>
     );
   }
