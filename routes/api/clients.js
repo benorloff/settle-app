@@ -9,5 +9,6 @@ const upload = multer();
 
 /*---------- Protected Routes ----------*/
 router.post("/", clientsCtrl.create);
+router.get("/", clientsCtrl.index);
 
 module.exports = router;

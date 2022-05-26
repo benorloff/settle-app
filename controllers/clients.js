@@ -24,7 +24,18 @@ async function create(req, res) {
     }
 }
 
+async function index(req, res) {
+    try {
+        const clients = await Client.find({userId: req.user}).exec()
+        res.status(200).json({clients})
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+}
+
 
 module.exports = {
     create,
+    index,
   };
