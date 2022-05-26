@@ -1,31 +1,31 @@
 import React from 'react';
-import { Card, Image, Button} from 'semantic-ui-react';
+import { Card, Image, Icon, Button, Divider } from 'semantic-ui-react';
 
 export default function ClientCard({ user, client }) {
 
     return (
-        <Card>
+        <Card 
+            href='#'
+            color='blue'
+        >
             <Card.Content>
                 <Image
-                floated='right'
+                style={{ marginBottom: 20 }}
+                floated='left'
+                circular
                 size='mini'
                 src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
                 />
                 <Card.Header>{client.firstName} {client.lastName}</Card.Header>
-                <Card.Meta>{client.email}</Card.Meta>
-                <Card.Description>
-                Steve wants to add you to the group <strong>best friends</strong>
+                <Card.Meta>{client.company}</Card.Meta>
+                <Card.Description style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                    {client.email}
                 </Card.Description>
-            </Card.Content>
-            <Card.Content extra>
-                <div className='ui two buttons'>
-                <Button basic color='green'>
-                    Approve
-                </Button>
-                <Button basic color='red'>
-                    Decline
-                </Button>
-                </div>
+                { client.phone &&       
+                    <Card.Description>
+                        <Icon name="phone"></Icon> {client.phone}
+                    </Card.Description>
+                }
             </Card.Content>
         </Card>
     )
