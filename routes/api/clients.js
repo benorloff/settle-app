@@ -8,6 +8,6 @@ const upload = multer();
 
 
 /*---------- Protected Routes ----------*/
-router.post("/create", clientsCtrl.create);
+router.post("/", clientsCtrl.create);
 
 module.exports = router;

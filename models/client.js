@@ -18,7 +18,9 @@ const clientSchema = new mongoose.Schema(
         },
         email: { 
             type: String,
-            required: true 
+            required: true,
+            lowercase: true, 
+            unique: true 
         },
         phone: { 
             type: String
@@ -42,6 +44,13 @@ const clientSchema = new mongoose.Schema(
             type: String
         },
         photoUrl: String,
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        stripeCustomerId: {
+            type: String
+        }
     },
     {
       timestamps: true,

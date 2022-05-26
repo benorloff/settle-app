@@ -11,15 +11,16 @@ export default function ClientNew({ user, handleLogout }) {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [newClient, setNewClient] = useState({});
 
     const navigate = useNavigate();
 
-    async function handleCreateClient(formData) {
+    console.log(user)
+
+    async function handleCreateClient(client) {
         try {
-            setLoading(true);
-            const data = await clientApi.create(formData);
-            setLoading(false);
-            navigate("/dashboard");
+            await clientApi.create(client);
+            navigate('/dashboard');
         } catch (err) {
             console.log(err);
             setError(err.message);

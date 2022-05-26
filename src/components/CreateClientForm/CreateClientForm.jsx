@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import Loading from '../../components/Loader/Loader';
 import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
 
 export default function CreateClientForm({ user, handleCreateClient }){
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
     const [state, setState] = useState({
         firstName: '',
         lastName: '',
         company: '',
         role: '',
-        email: [],
+        email: '',
         phone: '',
         address1: '',
         address2: '',
@@ -27,13 +29,19 @@ export default function CreateClientForm({ user, handleCreateClient }){
         console.log(state)
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
-        const formData = new FormData()
-        for (let key in state){
-            formData.append(key, state[key])
-        }
-        handleCreateClient(formData);
+        // const formData = new FormData()
+        // for (let key in state){
+        //     formData.append(key, state[key])
+        // }
+        handleCreateClient(state);
+    }
+
+    if (loading) {
+        return (
+            <Loading />
+        );
     }
 
     return (
@@ -48,7 +56,7 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             <Button>Cancel</Button>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button onClick={handleSubmit}>Save</Button>
+                            <Button>Save</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -93,7 +101,7 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             <Grid.Column>
                                 <Form.Input
                                     type="text"
-                                    name="position"
+                                    name="role"
                                     placeholder="Role/Title"
                                     label="Role/Title"
                                     value={state.role}
@@ -195,6 +203,7 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <Button type='submit'>Save</Button>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
                 </Segment>
