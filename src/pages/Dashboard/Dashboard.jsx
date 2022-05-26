@@ -50,16 +50,7 @@ export default function Dashboard({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            <Card.Group>
-                {clients.map((client) => {
-                    return (
-                        <ClientCard
-                            client={client}
-                            user={user}
-                        />
-                    )
-                })}
-            </Card.Group>
+            <h1>Dashboard</h1>
         </>
     )
     

@@ -6,7 +6,7 @@ const S3 = require("aws-sdk/clients/s3");
 const s3 = new S3(); // initialize the construcotr
 // now s3 can crud on our s3 buckets
 
-// const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 module.exports = {
   signup,
@@ -28,13 +28,20 @@ async function signup(req, res) {
     email: req.body.email,
   });
 
+  const accountLink = await stripe.accountLinks.create({
+    account: account.id,
+    refresh_url: '/login',
+    return_url: '/dashboard',
+    type: 'account_onboarding',
+  })
+
   s3.upload(params, async function (err, data) {
     console.log(data, "from aws"); 
     const user = new User({ ...req.body, photoUrl: data.Location, stripeAccountId: account.id });
     try {
       await user.save();
       const token = createJWT(user); // user is the payload so this is the object in our jwt
-      res.json({ token });
+      res.json({ token, accountLink });
     } catch (err) {
       // Probably a duplicate email
       res.status(400).json(err);
