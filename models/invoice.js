@@ -71,10 +71,6 @@ const invoiceSchema = new mongoose.Schema(
             type: String
         },
         attachments: [invoiceAttachmentSchema],
-        businessId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Business'
-        },
         userId: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
@@ -83,10 +79,6 @@ const invoiceSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Client'
         },
-        contactId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Contact'
-        }
     },
     {
       timestamps: true,

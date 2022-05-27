@@ -1,53 +1,50 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Card, Grid, Container, Button, Icon, Divider, Table, Menu } from 'semantic-ui-react';
+import React, { useEffect, useState } from 'react';
+import { Grid, Divider, Container, Button, Icon, Table, Card } from 'semantic-ui-react';
 import Header from "../../components/Header/Header";
-import ClientCard from '../../components/ClientCard/ClientCard';
-import ClientRow from '../../components/ClientRow/ClientRow';
+import InvoiceCard from '../../components/InvoiceCard/InvoiceCard';
+import InvoiceRow from '../../components/InvoiceRow/InvoiceRow';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Loading from '../../components/Loader/Loader';
 
-import clientApi from '../../utils/clientApi';
+import invoiceApi from '../../utils/invoiceApi';
 
-export default function Clients({ user, handleLogout }) {
 
+export default function Invoices({ user, handleLogout }) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const [clients, setClients] = useState([]);
-    const [recentClients, setRecentClients] = useState([]);
+    const [invoices, setInvoices] = useState([]);
+    const [recentInvoices, setRecentInvoices] = useState([]);
 
-    const navigate = useNavigate();
-
-    async function getClients() {
+    async function getInvoices() {
         try {
-            const data = await clientApi.getAll();
-            setClients([...data.clients]);
+            const data = await invoiceApi.getAll();
+            setInvoices([...data.invoices]);
         } catch (err) {
-            console.log(err.message, "<- this is the error");
+            console.log(err.message, '<- this is the error')
             setError(err.message);
         }
     }
 
-    function getRecentClients() {
+    function getRecentInvoices() {
         try {
-            const sortedClients = [...clients].sort((a,b) => b.updatedAt - a.updatedAt)
-            const recentClients = [...sortedClients].slice(-4)
-            const recentClientsDesc = recentClients.reverse()
-            console.log(recentClientsDesc)
-            setRecentClients(recentClientsDesc)
+            const sortedInvoices = [...invoices].sort((a,b) => b.updatedAt - a.updatedAt)
+            const recentInvoices = [...sortedInvoices].slice(-4)
+            const recentInvoicesDesc = recentInvoices.reverse()
+            console.log(recentInvoicesDesc)
+            setRecentInvoices(recentInvoicesDesc)
         } catch (err) {
             console.log(err.message)
             setError(err.message)
         }
     }
 
-    function handleNewClientBtnClick() {
-        navigate('/client/new')
+    function handleNewInvoiceBtnClick() {
+
     }
 
     useEffect(() => {
-        getClients();
-        getRecentClients();
+        getInvoices();
+        getRecentInvoices();
     }, []);
 
     if (error) {
@@ -75,7 +72,7 @@ export default function Clients({ user, handleLogout }) {
                 <Grid verticalAlign="middle" centered>
                     <Grid.Row columns='equal' verticalAlign='middle'>
                         <Grid.Column width={8}>
-                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>Clients</h1>
+                            <h1 style={{ marginTop: 20, marginBottom: 20 }}>Invoices</h1>
                         </Grid.Column>
                         <Grid.Column width={8} textAlign='right'>
                             <Button 
@@ -83,27 +80,27 @@ export default function Clients({ user, handleLogout }) {
                                 color='blue' 
                                 icon 
                                 labelPosition='right'
-                                onClick={handleNewClientBtnClick}
+                                onClick={handleNewInvoiceBtnClick}
                             >
                                 <Icon name='plus' />
-                                New Client
+                                New Invoice
                             </Button>  
                         </Grid.Column>
                     </Grid.Row>
                     <Divider />
                     <Grid.Row>
                         <Grid.Column>
-                            <h2>Recently Active</h2>
+                            <h2>Recent Invoices</h2>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
                             <Card.Group itemsPerRow={4} centered doubling>
-                                {recentClients.map((client, i) => {
+                                {recentInvoices.map((invoice, i) => {
                                     return (
-                                        <ClientCard
+                                        <InvoiceCard
                                             key={i}
-                                            client={client}
+                                            invoice={invoice}
                                             user={user}
                                         />
                                     )
@@ -114,7 +111,7 @@ export default function Clients({ user, handleLogout }) {
                     <Divider />
                     <Grid.Row>
                         <Grid.Column>
-                            <h2>All Clients</h2>
+                            <h2>All Invoices</h2>
                         </Grid.Column>
                     </Grid.Row>
                     <Grid.Row>
@@ -128,11 +125,11 @@ export default function Clients({ user, handleLogout }) {
                                     </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
-                                    {clients.map((client, i) => {
+                                    {invoices.map((invoice, i) => {
                                         return (
-                                            <ClientRow
+                                            <InvoiceRow
                                                 key={i}
-                                                client={client}
+                                                invoice={invoice}
                                             />
                                         )
                                     })}
@@ -144,5 +141,5 @@ export default function Clients({ user, handleLogout }) {
             </Container>
         </>
     )
-    
+
 }

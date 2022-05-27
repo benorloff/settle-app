@@ -28,11 +28,21 @@ export default function CreateInvoiceForm(props){
         amountPaid: '',
         amountDue: '',
         attachments: [],
-        businessId: '',
-        userId: '',
+        userId: props.user._id,
         clientId: '',
-        contactId: ''
     })
+
+    const clientOptions = props.clients.map((client) => ({
+        text: `${client.firstName} ${client.lastName}`,
+        value: client._id,
+        key: client._id
+    }))
+    
+    // const [selectState, setSelectState] = useState({
+    //     search: true,
+    //     value: [],
+    //     options: clientOptions
+    // })
 
     function handleChange(e){
         setState({
@@ -40,6 +50,13 @@ export default function CreateInvoiceForm(props){
             [e.target.name]: e.target.value
         })
         console.log(state)
+    }
+
+    function handleSelectChange(e, data) {
+        setState({
+            ...state,
+            clientId: data.value
+        })
     }
 
     function handleActiveLineItemChange(e){
@@ -51,13 +68,9 @@ export default function CreateInvoiceForm(props){
         console.log(state)
     }
 
-    function handleSubmit(e){
+    async function handleSubmit(e){
         e.preventDefault();
-        const formData = new FormData()
-        for (let key in state){
-            formData.append(key, state[key])
-        }
-        props.handleCreateInvoice(formData);
+        props.handleCreateInvoice(state);
     }
 
     async function handleAddLineItem(){
@@ -83,6 +96,7 @@ export default function CreateInvoiceForm(props){
             })
         }
         getDate();
+        console.log(clientOptions, '<-clientOptions')
     }, [])
 
     useEffect(() => {
@@ -119,7 +133,7 @@ export default function CreateInvoiceForm(props){
                             <Button>button</Button>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button>button</Button>
+                            <Button type='submit'>Send</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -162,11 +176,14 @@ export default function CreateInvoiceForm(props){
                         <Grid.Row columns={3}>
                             <Grid.Column>
                                 <Form.Select
-                                    name="contactId"
-                                    placeholder="Client Contact"
+                                    fluid
+                                    selection
+                                    search
+                                    name="clientId"
+                                    placeholder="Client"
                                     label="Billed To"
-                                    value={state.clientId}
-                                    onChange={handleChange}
+                                    options={clientOptions}
+                                    onChange={handleSelectChange}
                                     required
                                 />
                             </Grid.Column>
@@ -230,6 +247,7 @@ export default function CreateInvoiceForm(props){
                             onChange={handleActiveLineItemChange}
                         />
                     </Grid>
+                    <Button type='submit'>Send</Button>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
                 <Divider hidden />

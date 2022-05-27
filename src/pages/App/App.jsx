@@ -6,6 +6,7 @@ import SignupPage from "../SignupPage/SignupPage";
 import LoginPage from "../LoginPage/LoginPage";
 import Dashboard from "../Dashboard/Dashboard";
 import Clients from "../Clients/Clients";
+import Invoices from "../Invoices/Invoices";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
 import ClientNew from '../ClientNew/ClientNew';
 import userService from "../../utils/userService";
@@ -53,6 +54,10 @@ function App() {
         <Route
           path="/clients"
           element={<Clients user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
+          path="/invoices"
+          element={<Invoices user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/invoice/new"

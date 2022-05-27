@@ -2,12 +2,13 @@ import tokenService from "./tokenService"
 
 const BASE_URL = '/api/invoices/'
 
-export async function create(invoiceData) {
+async function create(invoice) {
     return fetch(BASE_URL, {
         method: 'POST',
-        body: invoiceData,
+        body: JSON.stringify(invoice),
         headers: {
-            'Authorization': 'Bearer ' + tokenService.getToken()
+            'Authorization': 'Bearer ' + tokenService.getToken(),
+            'Content-Type': 'application/json'
         }
     })
     .then((res) => {
@@ -17,9 +18,8 @@ export async function create(invoiceData) {
     })
 }
 
-export async function getAll() {
+async function getAll() {
     return fetch(BASE_URL, {
-        method: 'GET',
         headers: {
             'Authorization': 'Bearer ' + tokenService.getToken()
         } 
@@ -29,3 +29,10 @@ export async function getAll() {
         throw new Error('Bad Credentials!')
     })
 }
+
+const invoiceApi = {
+    create,
+    getAll,
+};
+  
+export default invoiceApi;

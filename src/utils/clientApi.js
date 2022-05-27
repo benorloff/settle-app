@@ -37,4 +37,4 @@ const clientApi = {
     getAll,
   };
   
-  export default clientApi;
+export default clientApi;
