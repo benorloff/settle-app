@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
 import ActiveLineItem from '../ActiveLineItem/ActiveLineItem';
@@ -126,14 +127,14 @@ export default function CreateInvoiceForm(props){
             <Grid.Column style={{ maxWidth: 750 }}>
                 <Grid>
                     <Grid.Row columns='equal' verticalAlign='middle'>
-                        <Grid.Column width={10}>
+                        <Grid.Column width={12}>
                             <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Invoice</h1>
                         </Grid.Column>
-                        <Grid.Column width={3}>
-                            <Button>button</Button>
+                        <Grid.Column width={2} floated='right' textAlign='right'>
+                            <Link to="/dashboard"><Button>Cancel</Button></Link>
                         </Grid.Column>
-                        <Grid.Column width={3}>
-                            <Button type='submit'>Send</Button>
+                        <Grid.Column width={2} floated='right' textAlign='right'>
+                            <Button form='new-invoice' type='submit' color='green'>Send</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
@@ -206,64 +207,73 @@ export default function CreateInvoiceForm(props){
                         </Grid.Row>
                         <Divider />
                         <Grid.Row columns='equal'>
-                            <Grid.Column width={10}>
-                                <div className='field'>
-                                    <label>Description</label>
-                                </div>
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <div className='field'>
-                                    <label>Rate</label>
-                                </div>
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <div className='field'>
-                                    <label>Qty</label>
-                                </div>  
-                            </Grid.Column>
-                            <Grid.Column width={2} textAlign='right'>
-                                <div className='field'>
-                                    <label>Total</label>
-                                </div>
-                            </Grid.Column>
+                                <Table color='green' >
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell width={10}>Description</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Rate</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Qty</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Total</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        {inactiveLineItems.map((item, i) => {
+                                            return (
+                                                <InactiveLineItem 
+                                                    key={i}
+                                                    name={item.name}
+                                                    description={item.description}
+                                                    rate={item.rate}
+                                                    quantity={item.quantity}
+                                                />
+                                            )
+                                        })}
+                                    </Table.Body>
+                                </Table>
                         </Grid.Row>
-                        <Divider fitted />
-                        {inactiveLineItems.map((item, i) => {
-                            return (
-                                <InactiveLineItem 
-                                    key={i}
-                                    name={item.name}
-                                    description={item.description}
-                                    rate={item.rate}
-                                    quantity={item.quantity}
-                                />
-                            )
-                        })}
-                        <ActiveLineItem
-                            name={activeLineItem.name}
-                            description={activeLineItem.description}
-                            rate={activeLineItem.rate}
-                            quantity={activeLineItem.quantity}
-                            onChange={handleActiveLineItemChange}
-                        />
+                        <Segment color='green'>
+                            <ActiveLineItem
+                                name={activeLineItem.name}
+                                description={activeLineItem.description}
+                                rate={activeLineItem.rate}
+                                quantity={activeLineItem.quantity}
+                                onChange={handleActiveLineItemChange}
+                            />
+                            <Divider hidden />
+                            {numLineItems.value <= 25 &&
+                                <Button color='green' fluid onClick={handleAddLineItem}>
+                                    Add Line Item
+                                </Button>
+                            }
+                            {numLineItems.value > 25 &&
+                                <Button fluid disabled>
+                                    You've reached the maximum number of line items.
+                                </Button>
+                            }
+                        </Segment>
                     </Grid>
-                    <Button type='submit'>Send</Button>
                     {error ? <ErrorMessage error={error} /> : null}
-                </Form>
                 <Divider hidden />
-                {numLineItems.value <= 25 &&
-                    <Button fluid onClick={handleAddLineItem}>
-                        Add Line Item
-                    </Button>
-                }
-                {numLineItems.value > 25 &&
-                    <Button fluid disabled>
-                        You've reached the maximum number of line items.
-                    </Button>
-                }
                 <Divider />
                 <Grid padded>
-                    <Grid.Column floated='right' width={8}>
+                    <Grid.Row>
+                    <Grid.Column width={8}>
+                        <Form.TextArea
+                            name="notes"
+                            placeholder="Enter any notes or payment details here."
+                            label="Notes"
+                            value={state.notes}
+                            onChange={handleChange}
+                        />
+                        <Form.TextArea
+                            name="terms"
+                            placeholder="Enter your terms and conditions."
+                            label="Terms"
+                            value={state.terms}
+                            onChange={handleChange}
+                        />
+                    </Grid.Column>
+                    <Grid.Column width={8}>
                         <Table basic='very' textAlign='right'>
                             <Table.Body>
                                 <Table.Row>
@@ -289,7 +299,9 @@ export default function CreateInvoiceForm(props){
                             </Table.Body>
                         </Table>
                     </Grid.Column>
+                    </Grid.Row>
                 </Grid>
+                </Form>
                 </Segment>
             </Grid.Column>
         </Grid>
