@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Divider, Container, Button, Icon, Table, Card } from 'semantic-ui-react';
 import Header from "../../components/Header/Header";
 import InvoiceCard from '../../components/InvoiceCard/InvoiceCard';
@@ -14,6 +15,8 @@ export default function Invoices({ user, handleLogout }) {
     const [loading, setLoading] = useState(false);
     const [invoices, setInvoices] = useState([]);
     const [recentInvoices, setRecentInvoices] = useState([]);
+
+    const navigate = useNavigate();
 
     async function getInvoices() {
         try {
@@ -39,7 +42,7 @@ export default function Invoices({ user, handleLogout }) {
     }
 
     function handleNewInvoiceBtnClick() {
-
+        navigate("/invoice/new")
     }
 
     useEffect(() => {
