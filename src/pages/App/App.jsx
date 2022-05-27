@@ -29,7 +29,7 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<Home />}
+          element={<Home user={user} handleSignUpOrLogin={handleSignUpOrLogin} handleLogout={handleLogout} />}
         />
         <Route
           path="/login"
