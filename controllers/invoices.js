@@ -12,37 +12,34 @@ async function create(req, res) {
 
     const client = await Client.findById(req.body.clientId);
 
-    const stripeCustomerId = await client.stripeCustomerId;
+    // const stripeCustomerId = await client.stripeCustomerId;
 
-    const stripeInvoiceItems = []
+    // const stripeInvoiceItems = []
 
-    async function invoiceItem(item) {
-        const invoiceItem = await stripe.invoiceItems.create({
-            customer: stripeCustomerId,
-            description: item.name,
-            quantity: item.quantity,
-            unit_amount: item.rate * 100
-        })
-        console.log(invoiceItem, '<-- invoiceItem')
-        return invoiceItem;
-    }
+    // async function invoiceItem(item) {
+    //     const invoiceItem = await stripe.invoiceItems.create({
+    //         description: item.name,
+    //         quantity: item.quantity,
+    //         unit_amount: item.rate * 100
+    //     })
+    //     console.log(invoiceItem, '<-- invoiceItem')
+    //     return invoiceItem;
+    // }
 
-    const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
+    // const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
 
-    console.log(stripeInvoiceItems);
+    // console.log(stripeInvoiceItems);
 
-    const stripeInvoice = await stripe.invoices.create({
-        on_behalf_of: req.user.stripeAccountId,
-        collection_method: "send_invoice",
-        due_date: req.body.dueDate,
-        lines: stripeInvoiceItems
-    })
+    // const stripeInvoice = await stripe.invoices.create({
+    //     // on_behalf_of: req.user.stripeAccountId,
+    //     lines: stripeInvoiceItems
+    // })
 
     try {
         console.log(req.body, 'req.body')
         const invoice = await Invoice.create({
             ...req.body,
-            stripeInvoiceId: stripeInvoice.id
+            // stripeInvoiceId: stripeInvoice.id
         });
         console.log(invoice)
         res.status(201).json({ invoice: invoice })
