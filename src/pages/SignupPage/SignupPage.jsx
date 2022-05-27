@@ -11,6 +11,7 @@ export default function SignUpPage(props) {
 
   const [error, setError] = useState('')
   const [state, setState] = useState({
+    username: '',
     email: '',
     password: '',
     passwordConf: '',
@@ -79,6 +80,17 @@ export default function SignUpPage(props) {
                   name="photoUrl"
                   placeholder="upload image"
                   onChange={handleFileInput}
+                  required
+                />
+              </Form.Field>
+              <Form.Field>
+                <Form.Input
+                  type="text"
+                  name="username"
+                  label="Username"
+                  placeholder="Username"
+                  value={state.username}
+                  onChange={handleChange}
                   required
                 />
               </Form.Field>

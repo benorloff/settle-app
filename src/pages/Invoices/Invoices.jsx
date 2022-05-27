@@ -116,20 +116,29 @@ export default function Invoices({ user, handleLogout }) {
                     </Grid.Row>
                     <Grid.Row>
                         <Grid.Column>
-                            <Table basic sortable>
+                            <Table 
+                                basic 
+                                sortable 
+                                stackable 
+                                singleLine
+                                selectable
+                            >
                                 <Table.Header>
                                     <Table.Row>
-                                        <Table.HeaderCell>Name</Table.HeaderCell>
-                                        <Table.HeaderCell>Company</Table.HeaderCell>
-                                        <Table.HeaderCell collapsing>Actions</Table.HeaderCell>
+                                        <Table.HeaderCell width={3}>Client / Invoice #</Table.HeaderCell>
+                                        <Table.HeaderCell width={7}>Description</Table.HeaderCell>
+                                        <Table.HeaderCell width={3}>Issued Date</Table.HeaderCell>
+                                        <Table.HeaderCell width={3}>Amount</Table.HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
                                 <Table.Body>
                                     {invoices.map((invoice, i) => {
+                                        console.log(invoice.invoiceItems)
                                         return (
                                             <InvoiceRow
                                                 key={i}
                                                 invoice={invoice}
+                                                items={invoice.invoiceItems}
                                             />
                                         )
                                     })}

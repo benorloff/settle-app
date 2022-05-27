@@ -46,6 +46,7 @@ async function signup(req, res) {
     console.log(user, 'new user');
     try {
       await user.save();
+      console.log(user, 'user after user.save')
       const token = createJWT(user);
       res.json({ token });
     } catch (err) {
