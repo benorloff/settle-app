@@ -1,37 +1,37 @@
-function setAccountLink(accountLink) {
-    if (accountLink) {
-      localStorage.setItem("accountLink", accountLink);
+function setAccountLinkToken(accountLinkToken) {
+    if (accountLinkToken) {
+      localStorage.setItem("accountLinkToken", accountLinkToken);
     } else {
-      localStorage.removeItem("accountLink");
+      localStorage.removeItem("accountLinkToken");
     }
   }
 
-function getAccountLink() {
-    let accountLink = localStorage.getItem("accountLink");
-    if (accountLink) {
-        const payload = JSON.parse(atob(accountLink.split(".")[1]));
+function getAccountLinkToken() {
+    let accountLinkToken = localStorage.getItem("accountLinkToken");
+    if (accountLinkToken) {
+        const payload = JSON.parse(atob(accountLinkToken.split(".")[1]));
         if (payload.exp < Date.now() / 1000) {
-            localStorage.removeItem("accountLink");
-            accountLink = null;
+            localStorage.removeItem("accountLinkToken");
+            accountLinkToken = null;
         }
     }
-    return accountLink
+    return accountLinkToken
 }
 
-function getUrlFromAccountLink() {
-    const accountLink = getAccountLink();
-    return accountLink ? JSON.parse(atob(accountLink.split(".")[1])).url : null;
+function getUrlFromAccountLinkToken() {
+    const accountLinkToken = getAccountLinkToken();
+    return accountLinkToken ? JSON.parse(atob(accountLinkToken.split(".")[1])).url : null;
 }
   
-function removeAccountLink() {
-    localStorage.removeItem("accountLink");
+function removeAccountLinkToken() {
+    localStorage.removeItem("accountLinkToken");
 }
 
 const stripeService = {
-    setAccountLink,
-    getAccountLink,
-    getUrlFromAccountLink,
-    removeAccountLink,
+    setAccountLinkToken,
+    getAccountLinkToken,
+    getUrlFromAccountLinkToken,
+    removeAccountLinkToken,
 };
   
 export default stripeService;

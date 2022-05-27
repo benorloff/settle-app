@@ -37,12 +37,16 @@ async function signup(req, res) {
     return_url: 'http://localhost:3000/dashboard',
     type: 'account_onboarding',
   })
-  console.log(accountLink, '<-stripe accountLink object')
+  console.log(accountLink.url, '<-stripe accountLink.url')
 
   s3.upload(params, async function (err, data) {
     console.log(data, "data from aws"); 
-    console.log(accountLink, '<-accountLink in s3.upload');
-    const user = new User({ ...req.body, photoUrl: data.Location, stripeAccountId: account.id });
+    const user = new User({ 
+      ...req.body, 
+      photoUrl: data.Location, 
+      stripeAccountId: account.id,
+      stripeAccountLinkUrl: accountLink.url 
+    });
     console.log(user, 'new user');
     try {
       await user.save();
@@ -80,14 +84,6 @@ async function login(req, res) {
 function createJWT(user) {
   return jwt.sign(
     { user }, // data payload
-    SECRET,
-    { expiresIn: "24h" }
-  );
-}
-
-function createJWTForAccountLink(accountLink) {
-  return jwt.sign(
-    { accountLink },
     SECRET,
     { expiresIn: "24h" }
   );

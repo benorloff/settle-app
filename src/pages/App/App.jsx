@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "../Home/Home";
@@ -9,12 +9,11 @@ import Clients from "../Clients/Clients";
 import Invoices from "../Invoices/Invoices";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
 import ClientNew from '../ClientNew/ClientNew';
+import StripeOnboard from "../StripeOnboard/StripeOnboard";
 import userService from "../../utils/userService";
-import stripeService from "../../utils/stripeService";
 
 function App() {
   const [user, setUser] = useState(userService.getUser());
-  const [stripeAccountLinkUrl, setStripeAccountLinkUrl] = useState(stripeService.getUrlFromAccountLink());
 
   function handleSignUpOrLogin() {
     setUser(userService.getUser());
@@ -38,14 +37,11 @@ function App() {
         />
         <Route
           path="/signup"
-          element={<SignupPage handleSignUpOrLogin={handleSignUpOrLogin} />}
+          element={<SignupPage user={user} handleSignUpOrLogin={handleSignUpOrLogin} />}
         />
         <Route
           path="/stripe-onboard"
-          element={() => {
-            window.location.replace(stripeAccountLinkUrl);
-            return null;
-          }}
+          element={<StripeOnboard user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/dashboard"

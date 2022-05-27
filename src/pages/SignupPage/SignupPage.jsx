@@ -5,11 +5,12 @@ import userService from "../../utils/userService";
 import { useNavigate } from "react-router-dom";
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import stripeService from "../../utils/stripeService";
+import Loading from "../../components/Loader/Loader";
 
-export default function SignUpPage(props) {
+export default function SignUpPage({ user, handleSignUpOrLogin }) {
 
   const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false);
   const [state, setState] = useState({
     username: '',
     email: '',
@@ -38,12 +39,12 @@ export default function SignUpPage(props) {
       formData.append(key, state[key])
     }
     try {
+      setLoading(true);
       await userService.signup(formData)
-      // console.log('userService.signup is done')
-      // const stripeAccountLinkUrl = await stripeService.getUrlFromAccountLink()
-      // console.log(stripeAccountLinkUrl, '<--stripeAccountLinkUrl from stripeService after signup')
-      props.handleSignUpOrLogin()
-      navigate('/dashboard')
+      console.log('userService.signup is done')
+      handleSignUpOrLogin()
+      setLoading(false);
+      navigate('/stripe-onboard')
     } catch(err){
       setError(err.message)
     }
@@ -53,6 +54,24 @@ export default function SignUpPage(props) {
     console.log(e.target.files, " <-- e.target.files");
     setSelectedFile(e.target.files[0])
   }
+
+  if (error) {
+    return (
+        <>
+            <Header user={user} />
+            <ErrorMessage error={error} />
+        </>
+    ) 
+  }
+
+if (loading) {
+    return (
+        <>
+            <Header user={user} />
+            <Loading />
+        </>
+    ) 
+}
 
   return (
     <>
