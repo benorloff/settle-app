@@ -16,8 +16,12 @@ export default function Header({ user, handleLogout }){
                         <Menu.Item item>
                             <Dropdown text='New' className='green' button pointing>
                                 <Dropdown.Menu>
-                                    <Dropdown.Item icon='dollar' text='Invoice' />
-                                    <Dropdown.Item icon='user' text='Client' />
+                                    <Dropdown.Item>
+                                        <Link to="/invoice/new">Invoice</Link>
+                                    </Dropdown.Item>
+                                    <Dropdown.Item>
+                                        <Link to="/client/new">Client</Link>
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>
                         </Menu.Item>
@@ -26,10 +30,16 @@ export default function Header({ user, handleLogout }){
                         </Menu.Item>
                         <Dropdown item icon='caret down'>
                             <Dropdown.Menu>
-                                <Dropdown.Item icon='dollar' text='Invoices' />
-                                <Dropdown.Item icon='users' text='Clients' />
+                                <Dropdown.Item>
+                                    <Link to="/invoices">Invoices</Link>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
+                                    <Link to="/clients">Clients</Link>
+                                </Dropdown.Item>
                                 <Dropdown.Divider />
-                                <Dropdown.Item icon='log out' text='Log Out' />
+                                <Dropdown.Item>
+                                    <Link to="/logout">Logout</Link>
+                                </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </>
