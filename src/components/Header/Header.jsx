@@ -37,8 +37,8 @@ export default function Header({ user, handleLogout }){
                                     <Link to="/clients">Clients</Link>
                                 </Dropdown.Item>
                                 <Dropdown.Divider />
-                                <Dropdown.Item>
-                                    <Link to="/logout">Logout</Link>
+                                <Dropdown.Item onClick={handleLogout}>
+                                    Logout
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
