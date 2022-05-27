@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import Loading from '../../components/Loader/Loader';
-import { Button, Form, Grid, Segment, Divider } from 'semantic-ui-react';
+import { Button, Form, Grid, Segment, Divider, Modal } from 'semantic-ui-react';
 
 export default function CreateClientForm({ user, handleCreateClient }){
     const [error, setError] = useState('')
@@ -53,15 +54,15 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             <h1 style={{ marginTop: 20, marginBottom: 20 }}>New Client</h1>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button>Cancel</Button>
+                            <Link to="/dashboard"><Button>Cancel</Button></Link>
                         </Grid.Column>
                         <Grid.Column width={3}>
-                            <Button>Save</Button>
+                            <Button form='new-client' type='submit' color='green'>Save</Button>
                         </Grid.Column>
                     </Grid.Row>
                 </Grid>
                 <Segment raised>
-                <Form autoComplete="off" onSubmit={handleSubmit} style={{ border: 1 }} >
+                <Form id='new-client' autoComplete="off" onSubmit={handleSubmit} style={{ border: 1 }} >
                     <Grid padded stackable>
                         <Grid.Row columns={2}>
                             <Grid.Column>
@@ -203,7 +204,6 @@ export default function CreateClientForm({ user, handleCreateClient }){
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
-                    <Button type='submit'>Save</Button>
                     {error ? <ErrorMessage error={error} /> : null}
                 </Form>
                 </Segment>
