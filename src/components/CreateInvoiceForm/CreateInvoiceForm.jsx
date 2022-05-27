@@ -32,18 +32,19 @@ export default function CreateInvoiceForm(props){
         userId: props.user._id,
         clientId: '',
     })
+    const [calcs, setCalcs] = useState({
+        subtotal: 0,
+        tax: 0,
+        total: 0,
+        amountPaid: 0, 
+        amountDue: 0
+    })
 
     const clientOptions = props.clients.map((client) => ({
         text: `${client.firstName} ${client.lastName}`,
         value: client._id,
         key: client._id
     }))
-    
-    // const [selectState, setSelectState] = useState({
-    //     search: true,
-    //     value: [],
-    //     options: clientOptions
-    // })
 
     function handleChange(e){
         setState({
@@ -97,7 +98,6 @@ export default function CreateInvoiceForm(props){
             })
         }
         getDate();
-        console.log(clientOptions, '<-clientOptions')
     }, [])
 
     useEffect(() => {
@@ -107,7 +107,7 @@ export default function CreateInvoiceForm(props){
             rate: '',
             quantity: '',
         });
-        async function subtotal() {
+        const subtotal = async () => {
             let subtotal = 0
             await inactiveLineItems.forEach((item) => {
                 subtotal += (item.rate * item.quantity)
@@ -115,6 +115,7 @@ export default function CreateInvoiceForm(props){
             console.log(subtotal, '<-sum from subtotal function')
             return subtotal;
         }
+        console.log(calcs)
         setState({
             ...state,
             invoiceItems: inactiveLineItems
@@ -278,7 +279,7 @@ export default function CreateInvoiceForm(props){
                             <Table.Body>
                                 <Table.Row>
                                     <Table.Cell>Subtotal</Table.Cell>
-                                    <Table.Cell>${state.subtotal ? state.subtotal : '0.00'}</Table.Cell>
+                                    <Table.Cell></Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell>Tax</Table.Cell>
