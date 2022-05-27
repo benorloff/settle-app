@@ -33,8 +33,8 @@ async function signup(req, res) {
 
   const accountLink = await stripe.accountLinks.create({
     account: account.id,
-    refresh_url: 'http://localhost:3000/login',
-    return_url: 'http://localhost:3000/dashboard',
+    refresh_url: 'https://settle.herokuapp.com/login',
+    return_url: 'https://settle.herokuapp.com/dashboard',
     type: 'account_onboarding',
   })
   console.log(accountLink.url, '<-stripe accountLink.url')
