@@ -13,16 +13,14 @@ export default function Header({ user, handleLogout }){
             <Menu.Menu position='right'>
                 { user && (
                     <>
-                        <Dropdown item floating text='New' color='green'>
-                            <Dropdown.Menu>
-                                <Dropdown.Item>
-                                    <Link to="/invoice/new">Invoice</Link>
-                                </Dropdown.Item>
-                                <Dropdown.Item>
-                                    <Link to="/client/new">Client</Link>
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
+                        <Menu.Item item>
+                            <Dropdown text='New' className='green' button pointing>
+                                <Dropdown.Menu>
+                                    <Dropdown.Item icon='dollar' text='Invoice' />
+                                    <Dropdown.Item icon='user' text='Client' />
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        </Menu.Item>
                         <Menu.Item item >
                             <Image src={user.photoUrl} avatar />
                         </Menu.Item>
