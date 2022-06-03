@@ -20,7 +20,7 @@ export default function ClientNew({ user, handleLogout }) {
     async function handleCreateClient(client) {
         try {
             await clientApi.create(client);
-            navigate('/dashboard');
+            navigate('/clients');
         } catch (err) {
             console.log(err);
             setError(err.message);
