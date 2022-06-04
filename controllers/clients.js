@@ -7,21 +7,29 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 async function create(req, res) {
     console.log(req.body, '<- req.body')
+    const fullName = `${req.body.firstName} ${req.body.lastName}`
+    console.log(fullName, '<-- client full name')
     try {
-        // CREATE STRIPE CUSTOMER ID HERE
-        const customer = await stripe.customers.create({
-            stripeAccount: req.user.stripeAccountId,
-            email: req.body.email,
-            phone: req.body.phone,
-            name: `${req.body.firstName} ${req.body.lastName}`,
-            address: {
-                line1: req.body.address1,
-                line2: req.body.address2,
-                city: req.body.city,
-                state: req.body.state,
-                postal_code: req.body.zipCode,
-            }
-        })
+        // CREATE STRIPE CUSTOMER OBJECT HERE
+        const customer = await stripe.customers.create(
+            {
+                email: req.body.email,
+                name: fullName,
+                address: {
+                    line1: req.body.address1,
+                    line2: req.body.address2,
+                    city: req.body.city,
+                    state: req.body.state,
+                    postal_code: req.body.zipCode,
+                    country: req.body.country
+                }, 
+                metadata: {
+                    company: req.body.company,
+                    role: req.body.role
+                }
+            },
+            {stripeAccount: req.user.stripeAccountId}
+        )
         console.log(customer, '<- customer object from Stripe')
         const client = await new Client({ ...req.body, userId: req.user, stripeCustomerId: customer.id });
         await client.save();

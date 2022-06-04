@@ -11,7 +11,6 @@ export default function ClientNew({ user, handleLogout }) {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [newClient, setNewClient] = useState({});
 
     const navigate = useNavigate();
 
