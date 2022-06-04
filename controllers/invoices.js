@@ -5,6 +5,7 @@ const SECRET = process.env.SECRET;
 const { v4: uuidv4 } = require("uuid");
 const S3 = require("aws-sdk/clients/s3");
 const invoice = require("../models/invoice");
+const { faExternalLinkSquare } = require("@fortawesome/free-solid-svg-icons");
 const s3 = new S3();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
@@ -15,10 +16,12 @@ async function create(req, res) {
     const stripeCustomerId = await client.stripeCustomerId;
     const stripeInvoiceItems = []
 
-    let dueDate = req.body.dueDate
-    dueDate = dueDate.split("-")
-    const newDate = new Date( dueDate[0], dueDate[1], dueDate[2] ).getTime()
-    console.log(newDate, '<-- newDate')
+    const dateStr = req.body.dueDate
+    const date = new Date(dateStr)
+    const unixTimestamp = Math.floor(date.getTime() / 1000)
+    const dueDateUnix = unixTimestamp > Date.now() ? unixTimestamp : (Math.floor(date.getTime() / 1000) + 86399)
+    console.log(unixTimestamp, '<--unixTimestamp')
+    console.log(dueDateUnix, '<--dueDateUnix')
 
     async function invoiceItem(item) {
         const invoiceItem = await stripe.invoiceItems.create({
@@ -38,7 +41,7 @@ async function create(req, res) {
     const stripeInvoice = await stripe.invoices.create({
         customer: stripeCustomerId,
         collection_method: 'send_invoice',
-        due_date: newDate,
+        due_date: dueDateUnix,
         description: req.body.notes,
         footer: req.body.terms,
     }, {
