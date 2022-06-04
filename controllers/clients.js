@@ -6,11 +6,9 @@ const s3 = new S3();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
 async function create(req, res) {
-    console.log(req.body, '<- req.body')
     const fullName = `${req.body.firstName} ${req.body.lastName}`
-    console.log(fullName, '<-- client full name')
     try {
-        // CREATE STRIPE CUSTOMER OBJECT HERE
+        // Create Stripe Customer object
         const customer = await stripe.customers.create(
             {
                 email: req.body.email,
@@ -30,10 +28,9 @@ async function create(req, res) {
             },
             {stripeAccount: req.user.stripeAccountId}
         )
-        console.log(customer, '<- customer object from Stripe')
+        // Create client in DB
         const client = await new Client({ ...req.body, userId: req.user, stripeCustomerId: customer.id });
         await client.save();
-        console.log(client, '<-client created from clientsCtrl.create')
         res.status(201).json({client})
     } catch (err) {
         // Probably a duplicate email
