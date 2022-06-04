@@ -28,13 +28,10 @@ export default function Invoices({ user, handleLogout }) {
         }
     }
 
-    function getRecentInvoices() {
+    async function getRecentInvoices() {
         try {
-            const sortedInvoices = [...invoices].sort((a,b) => b.updatedAt - a.updatedAt)
-            const recentInvoices = [...sortedInvoices].slice(-4)
-            const recentInvoicesDesc = recentInvoices.reverse()
-            console.log(recentInvoicesDesc)
-            setRecentInvoices(recentInvoicesDesc)
+            const data = await invoiceApi.getRecent();
+            setRecentInvoices([...data.invoices]);
         } catch (err) {
             console.log(err.message)
             setError(err.message)

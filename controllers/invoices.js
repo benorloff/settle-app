@@ -32,6 +32,7 @@ async function create(req, res) {
 
     const stripeInvoice = await stripe.invoices.create({
         customer: stripeCustomerId,
+        collection_method: send_invoice,
         description: req.body.notes,
         footer: req.body.terms,
     }, {
