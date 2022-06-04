@@ -13,34 +13,47 @@ async function create(req, res) {
     const client = await Client.findById(req.body.clientId);
     console.log(client, '<- client for invoice')
 
-    // const stripeCustomerId = await client.stripeCustomerId;
+    const stripeAccountId = await req.user.stripeAccountId
+    console.log(stripeAccountId, '<--stripeAccountId for invoice')
 
-    // const stripeInvoiceItems = []
+    const stripeCustomerId = await client.stripeCustomerId;
+    console.log(stripeCustomerId, '<--stripeCustomerId for invoice')
 
-    // async function invoiceItem(item) {
-    //     const invoiceItem = await stripe.invoiceItems.create({
-    //         description: item.name,
-    //         quantity: item.quantity,
-    //         unit_amount: item.rate * 100
-    //     })
-    //     console.log(invoiceItem, '<-- invoiceItem')
-    //     return invoiceItem;
-    // }
+    const stripeInvoiceItems = []
 
-    // const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
+    async function invoiceItem(item) {
+        const invoiceItem = await stripe.invoiceItems.create({
+            customer: stripeCustomerId,
+            description: item.name,
+            quantity: item.quantity,
+            currency: "usd",
+            unit_amount: item.rate * 100
+        }, {
+            stripeAccount: stripeAccountId
+        })
+        console.log(invoiceItem, '<-- invoiceItem')
+        return invoiceItem;
+    }
 
-    // console.log(stripeInvoiceItems);
+    const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
 
-    // const stripeInvoice = await stripe.invoices.create({
-    //     // on_behalf_of: req.user.stripeAccountId,
-    //     lines: stripeInvoiceItems
-    // })
+    console.log(stripeInvoiceItems, '<--stripeInvoiceItems for invoice');
+
+    const stripeInvoice = await stripe.invoices.create({
+        customer: stripeCustomerId,
+    }, {
+        stripeAccount: stripeAccountId,
+    });
+
+    // const finalizeInvoice = await stripe.invoices.finalizeInvoice(
+    //     stripeInvoice.id
+    // )
 
     try {
         console.log(req.body, 'req.body')
         const invoice = await Invoice.create({
             ...req.body,
-            // stripeInvoiceId: stripeInvoice.id
+            stripeInvoiceId: stripeInvoice.id
         });
         console.log(invoice)
         res.status(201).json({ invoice: invoice })
