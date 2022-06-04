@@ -35,7 +35,7 @@ export default function InvoiceNew({ user, business, handleLogout }) {
             setLoading(true);
             const data = await invoiceApi.create(invoice);
             setLoading(false);
-            navigate('/dashboard')
+            navigate('/invoices')
         } catch (err) {
             console.log(err);
             setError(err.message);

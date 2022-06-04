@@ -24,10 +24,10 @@ export default function CreateInvoiceForm(props){
         notes: '',
         terms: '',
         subtotal: 0,
-        tax: '',
-        total: '',
-        amountPaid: '',
-        amountDue: '',
+        tax: 0,
+        total: 0,
+        amountPaid: 0,
+        amountDue: 0,
         attachments: [],
         userId: props.user._id,
         clientId: '',
@@ -128,7 +128,7 @@ export default function CreateInvoiceForm(props){
                     </Grid.Row>
                 </Grid>
                 <Segment raised>
-                <Form autoComplete="off" onSubmit={handleSubmit}>
+                <Form id='new-invoice' autoComplete="off" onSubmit={handleSubmit}>
                     <Grid stackable padded>
                         <Grid.Row columns={3}>
                             <Grid.Column>
@@ -190,7 +190,7 @@ export default function CreateInvoiceForm(props){
                             <Grid.Column textAlign='right'>
                                 <div className='field'>
                                     <label>Amount Due</label>
-                                    <h1 style={{ marginTop: 0 }}>${state.subtotal}</h1>
+                                    <h1 style={{ marginTop: 0 }}>${state.subtotal.toFixed(2)}</h1>
                                 </div>
                             </Grid.Column>
                         </Grid.Row>
@@ -267,7 +267,7 @@ export default function CreateInvoiceForm(props){
                             <Table.Body>
                                 <Table.Row>
                                     <Table.Cell>Subtotal</Table.Cell>
-                                    <Table.Cell></Table.Cell>
+                                    <Table.Cell>${state.subtotal.toFixed(2)}</Table.Cell>
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell>Tax</Table.Cell>
@@ -283,7 +283,7 @@ export default function CreateInvoiceForm(props){
                                 </Table.Row>
                                 <Table.Row>
                                     <Table.Cell><h3>Amount Due</h3></Table.Cell>
-                                    <Table.Cell><h3>${state.subtotal}</h3></Table.Cell>
+                                    <Table.Cell><h3>${state.subtotal.toFixed(2)}</h3></Table.Cell>
                                 </Table.Row>
                             </Table.Body>
                         </Table>

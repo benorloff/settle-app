@@ -11,6 +11,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 async function create(req, res) {
 
     const client = await Client.findById(req.body.clientId);
+    console.log(client, '<- client for invoice')
 
     // const stripeCustomerId = await client.stripeCustomerId;
 
