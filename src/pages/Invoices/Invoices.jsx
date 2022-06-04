@@ -9,7 +9,6 @@ import Loading from '../../components/Loader/Loader';
 
 import invoiceApi from '../../utils/invoiceApi';
 
-
 export default function Invoices({ user, handleLogout }) {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);

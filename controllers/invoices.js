@@ -71,7 +71,9 @@ async function getRecent(req, res) {
     try {
         const invoices = await Invoice.find({userId: req.user})
             .sort('-updatedAt')
-            .limit(5)
+            .limit(4)
+            .populate('clientId')
+        console.log(invoices)
         res.status(200).json({invoices})
     } catch(err) {
         console.log(err);

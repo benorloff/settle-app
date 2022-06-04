@@ -16,7 +16,7 @@ export default function InvoiceCard({ user, invoice }) {
                 size='mini'
                 src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
                 />
-                <Card.Header>{invoice.firstName} {invoice.lastName}</Card.Header>
+                <Card.Header>{invoice.clientId.firstName} {invoice.clientId.lastName}</Card.Header>
                 <Card.Meta>{invoice.company}</Card.Meta>
                 <Card.Description style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
                     {invoice.email}
