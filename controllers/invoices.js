@@ -15,6 +15,11 @@ async function create(req, res) {
     const stripeCustomerId = await client.stripeCustomerId;
     const stripeInvoiceItems = []
 
+    let dueDate = req.body.dueDate
+    dueDate = dueDate.split("-")
+    const newDate = new Date( dueDate[0], dueDate[1], dueDate[2] ).getTime()
+    console.log(newDate, '<-- newDate')
+
     async function invoiceItem(item) {
         const invoiceItem = await stripe.invoiceItems.create({
             customer: stripeCustomerId,
@@ -32,7 +37,8 @@ async function create(req, res) {
 
     const stripeInvoice = await stripe.invoices.create({
         customer: stripeCustomerId,
-        collection_method: send_invoice,
+        collection_method: 'send_invoice',
+        due_date: newDate,
         description: req.body.notes,
         footer: req.body.terms,
     }, {

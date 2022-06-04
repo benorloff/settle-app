@@ -79,6 +79,9 @@ const invoiceSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Client'
         },
+        stripeInvoiceId: {
+            type: String
+        },
     },
     {
       timestamps: true,
