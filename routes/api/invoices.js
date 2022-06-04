@@ -6,6 +6,7 @@ const upload = multer();
 /*---------- Public Routes ----------*/
 router.post("/", invoicesCtrl.create);
 router.get("/", invoicesCtrl.index);
+router.get("/recent", invoicesCtrl.getRecent);
 
 /*---------- Protected Routes ----------*/
 

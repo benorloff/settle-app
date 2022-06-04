@@ -67,7 +67,20 @@ async function index(req, res) {
     }
 }
 
+async function getRecent(req, res) {
+    try {
+        const invoices = await Invoice.find({userId: req.user})
+            .sort('-updatedAt')
+            .limit(5)
+        res.status(200).json({invoices})
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+}
+
 module.exports = {
     create,
     index,
+    getRecent,
 };
