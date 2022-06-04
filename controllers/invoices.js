@@ -11,14 +11,8 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 async function create(req, res) {
 
     const client = await Client.findById(req.body.clientId);
-    console.log(client, '<- client for invoice')
-
     const stripeAccountId = await req.user.stripeAccountId
-    console.log(stripeAccountId, '<--stripeAccountId for invoice')
-
     const stripeCustomerId = await client.stripeCustomerId;
-    console.log(stripeCustomerId, '<--stripeCustomerId for invoice')
-
     const stripeInvoiceItems = []
 
     async function invoiceItem(item) {
@@ -31,22 +25,22 @@ async function create(req, res) {
         }, {
             stripeAccount: stripeAccountId
         })
-        console.log(invoiceItem, '<-- invoiceItem')
         return invoiceItem;
     }
 
     const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
 
-    console.log(stripeInvoiceItems, '<--stripeInvoiceItems for invoice');
-
     const stripeInvoice = await stripe.invoices.create({
         customer: stripeCustomerId,
+        description: req.body.notes,
+        footer: req.body.terms,
     }, {
         stripeAccount: stripeAccountId,
     });
 
     // const finalizeInvoice = await stripe.invoices.finalizeInvoice(
-    //     stripeInvoice.id
+    //     stripeInvoice.id, 
+    //     { stripeAccount: stripeAccountId }
     // )
 
     try {
@@ -55,7 +49,6 @@ async function create(req, res) {
             ...req.body,
             stripeInvoiceId: stripeInvoice.id
         });
-        console.log(invoice)
         res.status(201).json({ invoice: invoice })
     } catch(err) {
         console.log(err);
