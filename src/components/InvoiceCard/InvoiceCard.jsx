@@ -4,10 +4,8 @@ import invoiceApi from '../../utils/invoiceApi';
 
 export default function InvoiceCard({ user, invoice }) {
 
-    const issueDate = new Date(invoice.issueDate)
+    const issueDate = new Date(invoice.created * 1000) 
     const issueDateStr = issueDate.toLocaleDateString()
-
-    
 
     return (
         <Card 
@@ -22,20 +20,20 @@ export default function InvoiceCard({ user, invoice }) {
                 size='mini'
                 src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
                 />
-                <Card.Header>{invoice.clientId.firstName} {invoice.clientId.lastName}</Card.Header>
+                <Card.Header>{invoice.customer_name}</Card.Header>
                 <Card.Meta>{issueDateStr}</Card.Meta>
                 <Card.Description style={{overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                    Invoice #: {invoice.invoiceNum}
+                    {invoice.number}
                 </Card.Description>
-                { invoice.phone &&       
-                    <Card.Description>
-                        <Icon name="phone"></Icon> {invoice.phone}
-                    </Card.Description>
-                }
             </Card.Content>
             <Card.Content>
                 <Card.Header>
-                    {invoice.amountDue}
+                    ${invoice.total / 100}
+                </Card.Header>
+            </Card.Content>
+            <Card.Content>
+                <Card.Header>
+                    {invoice.status}
                 </Card.Header>
             </Card.Content>
         </Card>

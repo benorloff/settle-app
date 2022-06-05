@@ -3,12 +3,16 @@ import { Table } from 'semantic-ui-react';
 
 export default function InvoiceRow({ user, invoice }) {
 
+    const date = new Date(invoice.created * 1000)
+    const issueDate = date.toLocaleDateString()
+
+
     return (
         <Table.Row>
-            <Table.Cell>{invoice.clientId} {invoice.lastName}</Table.Cell>
-            <Table.Cell></Table.Cell>
-            <Table.Cell>{new Date(invoice.issueDate).toLocaleDateString()}</Table.Cell>
-            <Table.Cell>Amount</Table.Cell>
+            <Table.Cell><b>{invoice.customer_name}</b><br />{ invoice.number ? invoice.number : 'Draft' }</Table.Cell>
+            <Table.Cell>{invoice.description ? invoice.description : invoice.lines.data[0].description}</Table.Cell>
+            <Table.Cell>{issueDate}</Table.Cell>
+            <Table.Cell>${invoice.total / 100}</Table.Cell>
         </Table.Row>
     )
 

@@ -68,8 +68,11 @@ async function create(req, res) {
 
 async function index(req, res) {
     try {
-        const invoices = await Invoice.find({userId: req.user}).exec()
-        res.status(200).json({invoices})
+        const invoices = await stripe.invoices.list({
+            stripeAccount: req.user.stripeAccountId
+        })
+        const invoiceData = await invoices.data
+        res.status(200).json({invoiceData})
     } catch(err) {
         console.log(err);
         res.status(400).json(err);
@@ -78,12 +81,14 @@ async function index(req, res) {
 
 async function getRecent(req, res) {
     try {
-        const invoices = await Invoice.find({userId: req.user})
-            .sort('-updatedAt')
-            .limit(4)
-            .populate('clientId')
-        console.log(invoices)
-        res.status(200).json({invoices})
+        const invoices = await stripe.invoices.search({
+            query: 'total>0',
+            limit: 4,
+        }, {
+            stripeAccount: req.user.stripeAccountId
+        })
+        const invoiceData = await invoices.data
+        res.status(200).json({invoiceData})
     } catch(err) {
         console.log(err);
         res.status(400).json(err);

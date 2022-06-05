@@ -20,7 +20,7 @@ export default function Invoices({ user, handleLogout }) {
     async function getInvoices() {
         try {
             const data = await invoiceApi.getAll();
-            setInvoices([...data.invoices]);
+            setInvoices([...data.invoiceData]);
         } catch (err) {
             console.log(err.message, '<- this is the error')
             setError(err.message);
@@ -30,7 +30,8 @@ export default function Invoices({ user, handleLogout }) {
     async function getRecentInvoices() {
         try {
             const data = await invoiceApi.getRecent();
-            setRecentInvoices([...data.invoices]);
+            console.log(data, '<-- data')
+            setRecentInvoices([...data.invoiceData]);
         } catch (err) {
             console.log(err.message)
             setError(err.message)
