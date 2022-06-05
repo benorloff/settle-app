@@ -77,17 +77,7 @@ export default function Invoices({ user, handleLogout }) {
                         <Grid.Column width={8}>
                             <h1 style={{ marginTop: 20, marginBottom: 20 }}>Invoices</h1>
                         </Grid.Column>
-                        <Grid.Column width={8} textAlign='right'>
-                            <Button 
-                                type='button' 
-                                color='blue' 
-                                icon 
-                                labelPosition='right'
-                                onClick={handleNewInvoiceBtnClick}
-                            >
-                                <Icon name='plus' />
-                                New Invoice
-                            </Button>  
+                        <Grid.Column width={8} textAlign='right'> 
                         </Grid.Column>
                     </Grid.Row>
                     <Divider />
