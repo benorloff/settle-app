@@ -7,9 +7,7 @@ import Loading from "../../components/Loader/Loader";
 import invoiceApi from '../../utils/invoiceApi';
 import clientApi from '../../utils/clientApi';
 
-import { Grid } from 'semantic-ui-react';
-
-export default function InvoiceNew({ user, business, handleLogout }) {
+export default function InvoiceNew({ user, handleLogout }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [clients, setClients] = useState([]);

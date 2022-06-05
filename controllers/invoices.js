@@ -78,7 +78,19 @@ async function index(req, res) {
 }
 
 async function show(req, res) {
-    pass
+    try {
+        const invoice = await stripe.invoices.retrieve(
+            req.params.id,
+            {
+                stripeAccount: req.user.stripeAccountId
+            }
+        )
+        console.log(invoice, '<--invoice from show function')
+        res.status(200).json({invoice})
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
 }
 
 async function getRecent(req, res) {
@@ -89,7 +101,10 @@ async function getRecent(req, res) {
         }, {
             stripeAccount: req.user.stripeAccountId
         })
+        console.log(invoices, '<--invoices from getRecent')
         const invoiceData = await invoices.data
+        console.log(invoiceData, '<--invoiceData from getRecent')
+        console.log(req.user.stripeAccountId, '<--stripeAccountId from getRecent')
         res.status(200).json({invoiceData})
     } catch(err) {
         console.log(err);

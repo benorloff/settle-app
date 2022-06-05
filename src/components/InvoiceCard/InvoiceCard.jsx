@@ -9,7 +9,7 @@ export default function InvoiceCard({ user, invoice }) {
 
     return (
         <Card 
-            href='#'
+            href={`/invoices/${invoice.id}`}
             color='blue'
         >
             <Card.Content>

@@ -19,8 +19,10 @@ export default function Invoices({ user, handleLogout }) {
 
     async function getInvoices() {
         try {
+            setLoading(true)
             const data = await invoiceApi.getAll();
             setInvoices([...data.invoiceData]);
+            setLoading(false)
         } catch (err) {
             console.log(err.message, '<- this is the error')
             setError(err.message);
@@ -29,9 +31,10 @@ export default function Invoices({ user, handleLogout }) {
 
     async function getRecentInvoices() {
         try {
+            setLoading(true)
             const data = await invoiceApi.getRecent();
-            console.log(data, '<-- data')
             setRecentInvoices([...data.invoiceData]);
+            setLoading(false)
         } catch (err) {
             console.log(err.message)
             setError(err.message)
@@ -117,11 +120,7 @@ export default function Invoices({ user, handleLogout }) {
                     <Grid.Row>
                         <Grid.Column>
                             <Table 
-                                basic 
-                                sortable 
-                                stackable 
-                                singleLine
-                                selectable
+                                sortable
                             >
                                 <Table.Header>
                                     <Table.Row>

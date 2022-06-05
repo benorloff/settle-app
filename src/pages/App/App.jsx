@@ -53,16 +53,16 @@ function App() {
           element={<Clients user={user} handleLogout={handleLogout}/>}
         />
         <Route
+          path="/invoices/:id"
+          element={<InvoiceShow user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
           path="/invoices"
           element={<Invoices user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/invoice/new"
           element={<InvoiceNew user={user} handleLogout={handleLogout}/>}
-        />
-        <Route
-          path="/invoices/:number"
-          element={<InvoiceShow user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/client/new"

@@ -26,7 +26,7 @@ async function getAll() {
     })
     .then((res) => {
         if(res.ok) return res.json();
-        throw new Error('Bad Credentials!')
+        throw new Error('Error retrieving all invoices!')
     })
 }
 
@@ -38,12 +38,12 @@ async function getRecent() {
     })
     .then((res) => {
         if(res.ok) return res.json();
-        throw new Error('Bad Credentials!')
+        throw new Error('Error retrieving recent invoices!')
     })
 }
 
-async function getOne(number) {
-    return fetch(BASE_URL + number, {
+async function getOne(id) {
+    return fetch(BASE_URL + id, {
         headers: {
             'Authorization': 'Bearer ' + tokenService.getToken()
         }

@@ -1,11 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Table } from 'semantic-ui-react';
 
 export default function InvoiceRow({ user, invoice }) {
 
     const date = new Date(invoice.created * 1000)
     const issueDate = date.toLocaleDateString()
-
 
     return (
         <Table.Row>
