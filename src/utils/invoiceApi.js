@@ -42,10 +42,22 @@ async function getRecent() {
     })
 }
 
+async function getOne(number) {
+    return fetch(BASE_URL + number, {
+        headers: {
+            'Authorization': 'Bearer ' + tokenService.getToken()
+        }
+    }).then(res => {
+        if(res.ok) return res.json()
+        throw new Error('Invoice not found!')
+    })
+}
+
 const invoiceApi = {
     create,
     getAll,
     getRecent,
+    getOne,
 };
   
 export default invoiceApi;

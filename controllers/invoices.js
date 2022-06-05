@@ -20,8 +20,6 @@ async function create(req, res) {
     const date = new Date(dateStr)
     const unixTimestamp = Math.floor(date.getTime() / 1000)
     const dueDateUnix = unixTimestamp > Date.now() ? unixTimestamp : (Math.floor(date.getTime() / 1000) + 86399)
-    console.log(unixTimestamp, '<--unixTimestamp')
-    console.log(dueDateUnix, '<--dueDateUnix')
 
     async function invoiceItem(item) {
         const invoiceItem = await stripe.invoiceItems.create({
@@ -79,6 +77,10 @@ async function index(req, res) {
     }
 }
 
+async function show(req, res) {
+    pass
+}
+
 async function getRecent(req, res) {
     try {
         const invoices = await stripe.invoices.search({
@@ -98,5 +100,6 @@ async function getRecent(req, res) {
 module.exports = {
     create,
     index,
+    show,
     getRecent,
 };

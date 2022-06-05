@@ -8,6 +8,7 @@ import Dashboard from "../Dashboard/Dashboard";
 import Clients from "../Clients/Clients";
 import Invoices from "../Invoices/Invoices";
 import InvoiceNew from '../InvoiceNew/InvoiceNew';
+import InvoiceShow from '../InvoiceShow/InvoiceShow';
 import ClientNew from '../ClientNew/ClientNew';
 import StripeOnboard from "../StripeOnboard/StripeOnboard";
 import userService from "../../utils/userService";
@@ -58,6 +59,10 @@ function App() {
         <Route
           path="/invoice/new"
           element={<InvoiceNew user={user} handleLogout={handleLogout}/>}
+        />
+        <Route
+          path="/invoices/:number"
+          element={<InvoiceShow user={user} handleLogout={handleLogout}/>}
         />
         <Route
           path="/client/new"
