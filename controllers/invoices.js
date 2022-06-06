@@ -46,10 +46,10 @@ async function create(req, res) {
         stripeAccount: stripeAccountId,
     });
 
-    // const finalizeInvoice = await stripe.invoices.finalizeInvoice(
-    //     stripeInvoice.id, 
-    //     { stripeAccount: stripeAccountId }
-    // )
+    const finalizeInvoice = await stripe.invoices.finalizeInvoice(
+        stripeInvoice.id, 
+        { stripeAccount: stripeAccountId }
+    )
 
     try {
         console.log(req.body, 'req.body')
