@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
+import ShowInvoice from '../../components/ShowInvoice/ShowInvoice';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import Loading from "../../components/Loader/Loader";
 
@@ -50,7 +51,7 @@ export default function InvoiceShow({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            {invoice.invoice.id}
+            <ShowInvoice user={user} invoice={invoice} />
         </>
     )
 
