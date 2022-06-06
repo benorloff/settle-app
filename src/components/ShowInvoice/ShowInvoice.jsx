@@ -4,8 +4,21 @@ import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
 import { Button, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 
 export default function ShowInvoice({ user, invoice }){
-    const [numLineItems, setNumLineItems] = useState({value: 0})
-    const [inactiveLineItems, setInactiveLineItems] = useState([])
+    console.log(invoice, '<--invoice from ShowInvoice')
+    const [lineItems, setLineItems] = useState([])
+
+    async function getLineItems() {
+        invoice.lines.data.forEach((ii) => {
+            setLineItems([
+                ...lineItems,
+                ii
+            ])
+        })
+    }
+
+    useEffect(() => {
+        getLineItems();
+    }, [])
 
     return (
         <>
@@ -24,6 +37,59 @@ export default function ShowInvoice({ user, invoice }){
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
+                    <Segment raised>
+                        <Grid stackable padded>
+                            <Grid.Row columns={3}>
+                                <Grid.Column>
+                                    <h4>Invoice Number</h4>
+                                    <p>{invoice.number}</p>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <h4>Issue Date</h4>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <h4>Due Date</h4>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Grid.Row columns={3}>
+                                <Grid.Column>
+                                    <h4>Billed To</h4>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <h4>Reference</h4>
+                                </Grid.Column>
+                                <Grid.Column>
+                                    <h4>Amount Due</h4>
+                                </Grid.Column>
+                            </Grid.Row>
+                            <Divider />
+                            <Grid.Row columns='equal'>
+                                <Table color='green'>
+                                    <Table.Header>
+                                        <Table.Row>
+                                            <Table.HeaderCell width={10}>Description</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Rate</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Qty</Table.HeaderCell>
+                                            <Table.HeaderCell textAlign='right' width={2}>Total</Table.HeaderCell>
+                                        </Table.Row>
+                                    </Table.Header>
+                                    <Table.Body>
+                                        {lineItems.map((item) => {
+                                            return(
+                                                <InactiveLineItem
+                                                    key={item.id}
+                                                    description = {item.description}
+                                                    rate = {item.unit_amount}
+                                                    quantity = {item.quantity}
+                                                    total = {item.amount}
+                                                />
+                                            )
+                                        })}
+                                    </Table.Body>
+                                </Table>
+                            </Grid.Row>
+                        </Grid>
+                    </Segment>
                 </Grid.Column>
             </Grid>
             <Grid>

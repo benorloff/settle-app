@@ -51,7 +51,7 @@ export default function InvoiceShow({ user, handleLogout }) {
     return (
         <>
             <Header user={user} handleLogout={handleLogout} />
-            <ShowInvoice user={user} invoice={invoice} />
+            <ShowInvoice user={user} invoice={invoice}/>
         </>
     )
 
