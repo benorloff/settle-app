@@ -31,6 +31,9 @@ export default function Header({ user, handleLogout }){
                         <Dropdown item icon='caret down'>
                             <Dropdown.Menu>
                                 <Dropdown.Item>
+                                    <Link to="/dashboard">Dashboard</Link>
+                                </Dropdown.Item>
+                                <Dropdown.Item>
                                     <Link to="/invoices">Invoices</Link>
                                 </Dropdown.Item>
                                 <Dropdown.Item>
