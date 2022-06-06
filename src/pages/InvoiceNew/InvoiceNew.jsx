@@ -17,7 +17,7 @@ export default function InvoiceNew({ user, handleLogout }) {
     async function getClients() {
         try {
             const data = await clientApi.getAll();
-            setClients([...data.clients]);
+            setClients([...data.customers.data]);
         } catch (err) {
             console.log(err.message, "<- this is the error");
             setError(err.message);

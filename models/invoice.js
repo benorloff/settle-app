@@ -75,9 +75,9 @@ const invoiceSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        clientId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Client'
+        stripeCustomerId: {
+            type: String,
+            required: true
         },
         stripeInvoiceId: {
             type: String

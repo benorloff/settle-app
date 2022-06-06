@@ -11,9 +11,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 async function create(req, res) {
 
-    const client = await Client.findById(req.body.clientId);
-    const stripeAccountId = await req.user.stripeAccountId
-    const stripeCustomerId = await client.stripeCustomerId;
     const stripeInvoiceItems = []
 
     const dateStr = req.body.dueDate
@@ -23,13 +20,13 @@ async function create(req, res) {
 
     async function invoiceItem(item) {
         const invoiceItem = await stripe.invoiceItems.create({
-            customer: stripeCustomerId,
+            customer: req.body.stripeCustomerId,
             description: item.name,
             quantity: item.quantity,
             currency: "usd",
             unit_amount: item.rate * 100
         }, {
-            stripeAccount: stripeAccountId
+            stripeAccount: req.user.stripeAccountId
         })
         return invoiceItem;
     }
@@ -37,18 +34,18 @@ async function create(req, res) {
     const invoiceItems = await req.body.invoiceItems.forEach((item) => stripeInvoiceItems.push(invoiceItem(item)))
 
     const stripeInvoice = await stripe.invoices.create({
-        customer: stripeCustomerId,
+        customer: req.body.stripeCustomerId,
         collection_method: 'send_invoice',
         due_date: dueDateUnix,
         description: req.body.notes,
         footer: req.body.terms,
     }, {
-        stripeAccount: stripeAccountId,
+        stripeAccount: req.user.stripeAccountId,
     });
 
     const finalizeInvoice = await stripe.invoices.finalizeInvoice(
         stripeInvoice.id, 
-        { stripeAccount: stripeAccountId }
+        { stripeAccount: req.user.stripeAccountId }
     )
 
     try {

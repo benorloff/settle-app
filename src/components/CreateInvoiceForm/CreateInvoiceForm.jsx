@@ -30,13 +30,15 @@ export default function CreateInvoiceForm(props){
         amountDue: 0,
         attachments: [],
         userId: props.user._id,
-        clientId: '',
+        stripeCustomerId: '',
     })
     const clientOptions = props.clients.map((client) => ({
-        text: `${client.firstName} ${client.lastName}`,
-        value: client._id,
-        key: client._id
+        text: client.name,
+        value: client.id,
+        key: client.id
     }))
+
+    console.log(clientOptions, '<-- client Options')
 
     function handleChange(e){
         setState({
@@ -49,7 +51,7 @@ export default function CreateInvoiceForm(props){
     function handleSelectChange(e, data) {
         setState({
             ...state,
-            clientId: data.value
+            stripeCustomerId: data.value
         })
     }
 
@@ -169,7 +171,7 @@ export default function CreateInvoiceForm(props){
                                     fluid
                                     selection
                                     search
-                                    name="clientId"
+                                    name="stripeCustomerId"
                                     placeholder="Client"
                                     label="Billed To"
                                     options={clientOptions}
