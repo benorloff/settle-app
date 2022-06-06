@@ -95,28 +95,41 @@ export default function ShowInvoice({ user, invoice }){
                                     </Table.Body>
                                 </Table>
                             </Grid.Row>
+                            <Divider />
+                            <Grid.Row>
+                                <Grid.Column width={8}>
+
+                                </Grid.Column>
+                                <Grid.Column width={8}>
+                                    <Table basic='very' textAlign='right'>
+                                        <Table.Body>
+                                            <Table.Row>
+                                                <Table.Cell>Subtotal</Table.Cell>
+                                                <Table.Cell>$</Table.Cell>
+                                            </Table.Row>
+                                            <Table.Row>
+                                                <Table.Cell>Tax</Table.Cell>
+                                                <Table.Cell>0.00</Table.Cell>
+                                            </Table.Row>
+                                            <Table.Row>
+                                                <Table.Cell>Total</Table.Cell>
+                                                <Table.Cell>0.00</Table.Cell>
+                                            </Table.Row>
+                                            <Table.Row>
+                                                <Table.Cell>Amount Paid</Table.Cell>
+                                                <Table.Cell>0.00</Table.Cell>
+                                            </Table.Row>
+                                            <Table.Row>
+                                                <Table.Cell><h3>Amount Due</h3></Table.Cell>
+                                                <Table.Cell><h3>$</h3></Table.Cell>
+                                            </Table.Row>
+                                        </Table.Body>
+                                    </Table>
+                                </Grid.Column>
+                            </Grid.Row>
                         </Grid>
                     </Segment>
                 </Grid.Column>
-                
-            
-            </Grid>
-            <Divider />
-            <Grid>
-                <Grid.Row>
-                    <Grid.Column width={8}>
-
-                    </Grid.Column>
-                    <Grid.Column width={8}>
-                        <Table basic='very' textAlign='right'>
-                            <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>Subtotal</Table.Cell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-                    </Grid.Column>
-                </Grid.Row>
             </Grid>
         </>
     )
