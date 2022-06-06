@@ -41,8 +41,40 @@ async function create(req, res) {
 
 async function index(req, res) {
     try {
-        const clients = await Client.find({userId: req.user}).exec()
-        res.status(200).json({clients})
+        const customers = await stripe.customers.list({
+            stripeAccount: req.user.stripeAccountId
+        })
+        res.status(200).json({customers})
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+}
+
+async function show(req, res) {
+    try {
+        const customer = await stripe.customers.retrieve(
+            req.params.id,
+            {
+                stripeAccount: req.user.stripeAccountId
+            }
+        )
+        res.status(200).json({customer})
+    } catch(err) {
+        console.log(err);
+        res.status(400).json(err);
+    }
+}
+
+async function getRecent(req, res) {
+    try {
+        const customers = await stripe.customers.search({
+            query: 'created>0',
+            limit: 4,
+        }, {
+            stripeAccount: req.user.stripeAccountId
+        })
+        res.status(200).json({customers})
     } catch(err) {
         console.log(err);
         res.status(400).json(err);
@@ -53,4 +85,6 @@ async function index(req, res) {
 module.exports = {
     create,
     index,
+    show,
+    getRecent,
   };

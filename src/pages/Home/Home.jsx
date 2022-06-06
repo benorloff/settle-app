@@ -4,6 +4,7 @@ import { Container, List, Button, Grid, Segment } from 'semantic-ui-react';
 import ErrorMessage from "../../components/ErrorMessage/ErrorMessage";
 import Loading from "../../components/Loader/Loader";
 import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
 
 import userService from "../../utils/userService";
 
@@ -48,17 +49,7 @@ export default function Home({ user, handleSignUpOrLogin, handleLogout }) {
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
-            <Segment inverted vertical style={{ padding: '2em 5em' }}>
-                <Container>
-                    <Grid inverted centered>
-                        <Grid.Row>
-                            <Grid.Column>
-                                Copyright Settle. All Rights Reserved.
-                            </Grid.Column>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
-            </Segment>
+            <Footer />
         </>
     )
 }

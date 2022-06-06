@@ -10,5 +10,8 @@ const upload = multer();
 /*---------- Protected Routes ----------*/
 router.post("/", clientsCtrl.create);
 router.get("/", clientsCtrl.index);
+router.get("/recent", clientsCtrl.getRecent);
+//This has to go after 'recent' since they are both GET requests
+router.get("/:id", clientsCtrl.show);
 
 module.exports = router;

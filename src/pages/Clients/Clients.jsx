@@ -20,29 +20,28 @@ export default function Clients({ user, handleLogout }) {
 
     async function getClients() {
         try {
+            setLoading(true)
             const data = await clientApi.getAll();
-            setClients([...data.clients]);
+            console.log(data, '<-- data from getClients')
+            setClients([...data.customers.data]);
+            setLoading(false)
         } catch (err) {
             console.log(err.message, "<- this is the error");
             setError(err.message);
         }
     }
 
-    function getRecentClients() {
+    async function getRecentClients() {
         try {
-            const sortedClients = [...clients].sort((a,b) => b.updatedAt - a.updatedAt)
-            const recentClients = [...sortedClients].slice(-4)
-            const recentClientsDesc = recentClients.reverse()
-            console.log(recentClientsDesc)
-            setRecentClients(recentClientsDesc)
+            setLoading(true)
+            const data = await clientApi.getRecent();
+            console.log(data, '<-- data from getRecent')
+            setRecentClients([...data.customers.data])
+            setLoading(false)
         } catch (err) {
             console.log(err.message)
             setError(err.message)
         }
-    }
-
-    function handleNewClientBtnClick() {
-        navigate('/client/new')
     }
 
     useEffect(() => {
@@ -77,17 +76,7 @@ export default function Clients({ user, handleLogout }) {
                         <Grid.Column width={8}>
                             <h1 style={{ marginTop: 20, marginBottom: 20 }}>Clients</h1>
                         </Grid.Column>
-                        <Grid.Column width={8} textAlign='right'>
-                            <Button 
-                                type='button' 
-                                color='blue' 
-                                icon 
-                                labelPosition='right'
-                                onClick={handleNewClientBtnClick}
-                            >
-                                <Icon name='plus' />
-                                New Client
-                            </Button>  
+                        <Grid.Column width={8} textAlign='right'> 
                         </Grid.Column>
                     </Grid.Row>
                     <Divider />

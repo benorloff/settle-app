@@ -2,7 +2,7 @@ import tokenService from './tokenService';
 
 const BASE_URL = "/api/clients/";
 
-function create(client) {
+async function create(client) {
     return (
         fetch(BASE_URL, {
             method: "POST",
@@ -19,7 +19,7 @@ function create(client) {
     );
 }
 
-function getAll() {
+async function getAll() {
     return (
         fetch(BASE_URL, {
             headers: {
@@ -32,9 +32,34 @@ function getAll() {
     )
 }
 
+async function getRecent() {
+    return fetch(BASE_URL + 'recent', {
+        headers: {
+            'Authorization': 'Bearer ' + tokenService.getToken()
+        }
+    })
+    .then((res) => {
+        if(res.ok) return res.json();
+        throw new Error('Error retrieving recent clients.')
+    })
+}
+
+async function getOne(id) {
+    return fetch(BASE_URL + id, {
+        headers: {
+            'Authorization': 'Bearer ' + tokenService.getToken()
+        }
+    }).then(res => {
+        if(res.ok) return res.json()
+        throw new Error('Client not found!')
+    })
+}
+
 const clientApi = {
     create,
     getAll,
+    getRecent,
+    getOne,
   };
   
 export default clientApi;

@@ -41,10 +41,6 @@ export default function Invoices({ user, handleLogout }) {
         }
     }
 
-    function handleNewInvoiceBtnClick() {
-        navigate("/invoice/new")
-    }
-
     useEffect(() => {
         getInvoices();
         getRecentInvoices();
