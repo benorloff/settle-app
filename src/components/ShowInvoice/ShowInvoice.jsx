@@ -4,21 +4,20 @@ import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
 import { Button, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 
 export default function ShowInvoice({ user, invoice }){
-    console.log(invoice, '<--invoice from ShowInvoice')
     const [lineItems, setLineItems] = useState([])
 
-    async function getLineItems() {
-        invoice.lines.data.forEach((ii) => {
-            setLineItems([
-                ...lineItems,
-                ii
-            ])
-        })
-    }
+    // async function getLineItems() {
+    //     invoice.lines.data.forEach((ii) => {
+    //         setLineItems([
+    //             ...lineItems,
+    //             ii
+    //         ])
+    //     })
+    // }
 
-    useEffect(() => {
-        getLineItems();
-    }, [])
+    // useEffect(() => {
+    //     getLineItems();
+    // }, [])
 
     return (
         <>
@@ -42,24 +41,32 @@ export default function ShowInvoice({ user, invoice }){
                             <Grid.Row columns={3}>
                                 <Grid.Column>
                                     <h4>Invoice Number</h4>
-                                    <p>{invoice.number}</p>
+                                    <p>{invoice.invoice.number}</p>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Issue Date</h4>
+                                    <p>{invoice.invoice.created}</p>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Due Date</h4>
+                                    <p>{invoice.invoice.due_date}</p>
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row columns={3}>
                                 <Grid.Column>
                                     <h4>Billed To</h4>
+                                    <p>{invoice.invoice.customer_name}<br />
+                                    {invoice.invoice.customer_address.line1}<br />
+                                    {invoice.invoice.customer_address.line2 ? `${invoice.invoice.customer_address.line2} <br />` : ''}
+                                    {invoice.invoice.customer_address.city}, {invoice.invoice.customer_address.state} {invoice.invoice.customer_address.postal_code}<br />
+                                    {invoice.invoice.customer_address.country}</p>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Reference</h4>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Amount Due</h4>
+                                    <p>${invoice.invoice.amount_due / 100}</p>
                                 </Grid.Column>
                             </Grid.Row>
                             <Divider />
@@ -91,9 +98,25 @@ export default function ShowInvoice({ user, invoice }){
                         </Grid>
                     </Segment>
                 </Grid.Column>
+                
+            
             </Grid>
+            <Divider />
             <Grid>
+                <Grid.Row>
+                    <Grid.Column width={8}>
 
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                        <Table basic='very' textAlign='right'>
+                            <Table.Body>
+                                <Table.Row>
+                                    <Table.Cell>Subtotal</Table.Cell>
+                                </Table.Row>
+                            </Table.Body>
+                        </Table>
+                    </Grid.Column>
+                </Grid.Row>
             </Grid>
         </>
     )
