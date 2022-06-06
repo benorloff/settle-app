@@ -111,8 +111,9 @@ export default function Clients({ user, handleLogout }) {
                             <Table basic sortable>
                                 <Table.Header>
                                     <Table.Row>
-                                        <Table.HeaderCell>Name</Table.HeaderCell>
-                                        <Table.HeaderCell>Company</Table.HeaderCell>
+                                        <Table.HeaderCell>Name/Company</Table.HeaderCell>
+                                        <Table.HeaderCell>Notes</Table.HeaderCell>
+                                        <Table.HeaderCell collapsing>Total Outstanding</Table.HeaderCell>
                                         <Table.HeaderCell collapsing>Actions</Table.HeaderCell>
                                     </Table.Row>
                                 </Table.Header>
