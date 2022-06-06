@@ -6,18 +6,18 @@ import { Button, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 export default function ShowInvoice({ user, invoice }){
     const [lineItems, setLineItems] = useState([])
 
-    // async function getLineItems() {
-    //     invoice.lines.data.forEach((ii) => {
-    //         setLineItems([
-    //             ...lineItems,
-    //             ii
-    //         ])
-    //     })
-    // }
+    async function getLineItems() {
+        invoice.invoice.lines.data.forEach((ii) => {
+            setLineItems([
+                ...lineItems,
+                ii
+            ])
+        })
+    }
 
-    // useEffect(() => {
-    //     getLineItems();
-    // }, [])
+    useEffect(() => {
+        getLineItems();
+    }, [])
 
     return (
         <>
@@ -98,7 +98,8 @@ export default function ShowInvoice({ user, invoice }){
                             <Divider />
                             <Grid.Row>
                                 <Grid.Column width={8}>
-
+                                    <h4>Notes</h4>
+                                    <h4>Terms</h4>
                                 </Grid.Column>
                                 <Grid.Column width={8}>
                                     <Table basic='very' textAlign='right'>
