@@ -4,6 +4,9 @@ import InactiveLineItem from '../InactiveLineItem/InactiveLineItem';
 import { Button, Grid, Segment, Divider, Table } from 'semantic-ui-react';
 
 export default function ShowInvoice({ user, invoice }){
+
+    console.log(invoice, '<-- invoice');
+
     const [lineItems, setLineItems] = useState([])
 
     async function getLineItems() {
@@ -41,32 +44,32 @@ export default function ShowInvoice({ user, invoice }){
                             <Grid.Row columns={3}>
                                 <Grid.Column>
                                     <h4>Invoice Number</h4>
-                                    <p>{invoice.invoice.number}</p>
+                                    {/* <p>{invoice.invoice.number}</p> */}
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Issue Date</h4>
-                                    <p>{invoice.invoice.created}</p>
+                                    {/* <p>{invoice.invoice.created}</p> */}
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Due Date</h4>
-                                    <p>{invoice.invoice.due_date}</p>
+                                    {/* <p>{invoice.invoice.due_date}</p> */}
                                 </Grid.Column>
                             </Grid.Row>
                             <Grid.Row columns={3}>
                                 <Grid.Column>
                                     <h4>Billed To</h4>
-                                    <p>{invoice.invoice.customer_name}<br />
+                                    {/* <p>{invoice.invoice.customer_name}<br />
                                     {invoice.invoice.customer_address.line1}<br />
                                     {invoice.invoice.customer_address.line2 ? `${invoice.invoice.customer_address.line2} <br />` : ''}
                                     {invoice.invoice.customer_address.city}, {invoice.invoice.customer_address.state} {invoice.invoice.customer_address.postal_code}<br />
-                                    {invoice.invoice.customer_address.country}</p>
+                                    {invoice.invoice.customer_address.country}</p> */}
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Reference</h4>
                                 </Grid.Column>
                                 <Grid.Column>
                                     <h4>Amount Due</h4>
-                                    <p>${invoice.invoice.amount_due / 100}</p>
+                                    {/* <p>${invoice.invoice.amount_due / 100}</p> */}
                                 </Grid.Column>
                             </Grid.Row>
                             <Divider />
